@@ -4,7 +4,7 @@ extends TileMapLayer
 
 var ents_lv = 1
 
-var snake = Snake.new()
+var bubble = Bubble.new()
 
 func _ready() -> void:
     Refs.ents = self
@@ -18,35 +18,35 @@ func set_starting_position(target_position: int) -> void:
         _:
             starting_pos = Vector2i(0, 0)
     set_cell(starting_pos, ents_lv, Refs.enitities_atlas["Head"])
-    snake.head_position = starting_pos
+    bubble.head_position = starting_pos
     print("Starting position set to: " + str(starting_pos))
-    snake.create_body()
+    bubble.create_body()
     update_graphics()
 
-func move_snake() -> void:
-    snake.move()
+func move_bubble() -> void:
+    bubble.move()
     update_graphics()
 
 func update_graphics() -> void:
-    %Head.position = snake.head_position * Refs.tile_size + Vector2i(64, 64)
-    var snake_dir: Vector2 = snake.direction
-    if snake.direction == Vector2i.UP or snake.direction == Vector2i.DOWN:
-        %Head.rotation = snake_dir.angle_to(Vector2.LEFT)
+    %Head.position = bubble.head_position * Refs.tile_size + Vector2i(64, 64)
+    var bubble_dir: Vector2 = bubble.direction
+    if bubble.direction == Vector2i.UP or bubble.direction == Vector2i.DOWN:
+        %Head.rotation = bubble_dir.angle_to(Vector2.LEFT)
     else: # LEFT or RIGHT
-        %Head.rotation = snake_dir.angle_to(Vector2.RIGHT)
+        %Head.rotation = bubble_dir.angle_to(Vector2.RIGHT)
 
 
 func create_body() -> void:
     return
-    var body = snake.body
+    var body = bubble.body
     for i in range(body.size()):
-        var body_coords = snake.head_position - snake.direction * (i + 1)
+        var body_coords = bubble.head_position - bubble.direction * (i + 1)
         set_cell(body_coords, ents_lv, Refs.enitities_atlas["Body"])
         print("Body created at: " + str(body_coords))
 
 
 func _input(event):
-    var direction: Vector2i = snake.direction
+    var direction: Vector2i = bubble.direction
     if event is InputEventKey:
         if event.pressed:
             match event.keycode:
@@ -60,10 +60,10 @@ func _input(event):
                     direction = Vector2i.RIGHT
                 KEY_1:
                     create_body()
-            if direction == -snake.direction:
+            if direction == -bubble.direction:
                 return
-            snake.direction = direction
+            bubble.direction = direction
 
-            print("Direction set to: " + str(snake.direction))
+            print("Direction set to: " + str(bubble.direction))
             update_graphics()
 

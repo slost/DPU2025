@@ -1,5 +1,5 @@
 extends Node
-class_name Snake
+class_name Bubble
 
 var body: Array = []
 var direction: Vector2i = Vector2i.RIGHT

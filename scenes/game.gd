@@ -24,7 +24,7 @@ func _process(delta: float) -> void:
 	tiks += 1
 
 	if tiks >= tik_per_move():
-		ents.move_snake()
+		ents.move_bubble()
 		current_moves += 1
 		print("Moves:" + str(current_moves))
 		tiks = 0
