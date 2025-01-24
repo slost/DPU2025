@@ -1,0 +1,65 @@
+[gd_scene load_steps=2 format=3 uid="uid://c4vvxxhloq5gu"]
+
+[ext_resource type="Script" path="res://test_scene_script/test_multiplayer.gd" id="1_8ml4s"]
+
+[node name="test_multiplayer" type="Node2D" node_paths=PackedStringArray("ip_adress", "b_host", "b_join", "b_play")]
+script = ExtResource("1_8ml4s")
+ip_adress = NodePath("CanvasLayer/Control/HBoxContainer/TextEdit")
+b_host = NodePath("CanvasLayer/Control/Buttons_container/B_host")
+b_join = NodePath("CanvasLayer/Control/Buttons_container/B_join")
+b_play = NodePath("CanvasLayer/Control/Buttons_container/B_play")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -256.0
+offset_top = 64.0
+offset_right = 256.0
+offset_bottom = 128.0
+grow_horizontal = 2
+
+[node name="TextEdit" type="TextEdit" parent="CanvasLayer/Control/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter_IP"
+
+[node name="Buttons_container" type="VBoxContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -50.5
+offset_right = 64.0
+offset_bottom = 50.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="B_host" type="Button" parent="CanvasLayer/Control/Buttons_container"]
+layout_mode = 2
+text = "Host"
+
+[node name="B_join" type="Button" parent="CanvasLayer/Control/Buttons_container"]
+layout_mode = 2
+text = "Join"
+
+[node name="B_play" type="Button" parent="CanvasLayer/Control/Buttons_container"]
+layout_mode = 2
+text = "Play"
+
+[connection signal="pressed" from="CanvasLayer/Control/Buttons_container/B_host" to="." method="_on_b_host_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Buttons_container/B_join" to="." method="_on_b_join_pressed"]
