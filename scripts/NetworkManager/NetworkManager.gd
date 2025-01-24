@@ -9,7 +9,7 @@ signal server_disconnected
 
 
 const PORT = 7100
-const Defult_server_ip :String = "local_host"
+const Defult_server_ip :String = "192.168.9.22"
 var Max_player :int = 100
 
 #plaeyr info
@@ -37,6 +37,7 @@ func _create_server() -> Error:
 		"Face" : 0, 
 		"Color" : Color(0, 0, 0), 
 	}
+	print("HOST!!")
 	return OK
 
 #Create clients
@@ -45,7 +46,7 @@ func _create_client(address :String = "") -> void:
 	if address.is_empty():
 		address = Defult_server_ip
 	peer.create_client(address, PORT)
-	multiplayer.multiplayer_peer
+	multiplayer.multiplayer_peer = peer
 	
 
 #Player connected | only host signal
@@ -64,6 +65,10 @@ func _client_connected(peer_id :int)  -> void:
 	for peer :int in players.keys():
 		if peer != 1:
 			_sync_player_info.rpc_id(peer, players)
+	await get_tree().process_frame
+	await get_tree().create_timer(0.5).timeout
+	client_connected.emit(peer_id)
+	print("CLIENT ND ID :", peer_id)
 
 
 #connected_to_server | host only read
@@ -77,6 +82,7 @@ func _client_disconnected(peer_id :int) -> void:
 	for target_peer :int in players.keys():
 		if target_peer != 1:
 			_sync_player_info.rpc_id(target_peer, players)
+	client_disconnected.emit(peer_id)
 
 
 #Client_connected_to_server | only cilent emit

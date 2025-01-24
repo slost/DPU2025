@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://dtc25e8n7w72s"]
+[gd_scene load_steps=4 format=3 uid="uid://chwebnol1raip"]
 
 [ext_resource type="Script" path="res://scripts/options/options.gd" id="1_4fce8"]
-[ext_resource type="PackedScene" uid="uid://bfvk1yywywm20" path="res://scenes/options/setting_contrainer.tscn" id="2_88koq"]
 
 [sub_resource type="SystemFont" id="SystemFont_extf6"]
 font_names = PackedStringArray("Century Schoolbook")
@@ -52,9 +51,19 @@ text = "OPTIONS
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Setting_contrainer" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_88koq")]
+[node name="Setting_contrainer" parent="MarginContainer/VBoxContainer"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
 layout_mode = 2
 size_flags_vertical = 3
+script = null
 
 [node name="Back" type="Button" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(180, 60)
