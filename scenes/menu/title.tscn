@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dpyqweqtlpsrb"]
+[gd_scene load_steps=13 format=3 uid="uid://dpyqweqtlpsrb"]
 
 [ext_resource type="Script" path="res://scripts/menu/title.gd" id="1_jkxbs"]
 [ext_resource type="Shader" path="res://assets/shaders/scroll.gdshader" id="2_5r50l"]
@@ -12,7 +12,59 @@
 shader = ExtResource("2_5r50l")
 shader_parameter/speed = 0.1
 
-[node name="Title" type="Control" node_paths=PackedStringArray("vbox_online")]
+[sub_resource type="Animation" id="Animation_8brho"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pattern:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_8wpf8"]
+resource_name = "change_color_to_lobby"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pattern:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_pk2sq"]
+resource_name = "change_color_to_title"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pattern:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 1, 1, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hu05x"]
+_data = {
+"RESET": SubResource("Animation_8brho"),
+"change_color_to_lobby": SubResource("Animation_8wpf8"),
+"change_color_to_title": SubResource("Animation_pk2sq")
+}
+
+[node name="Title" type="Control" node_paths=PackedStringArray("title", "lobby", "vbox_online", "bg", "title_lobby_anim", "get_ip_adress", "player_name", "change_name", "players_list")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,9 +72,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_jkxbs")
-vbox_online = NodePath("vbox_online")
+title = NodePath("Title")
+lobby = NodePath("Lobby")
+vbox_online = NodePath("Title/vbox_online")
+bg = NodePath("Pattern")
+title_lobby_anim = NodePath("Title_Lobby_anim")
+get_ip_adress = NodePath("Title/vbox_online/get_ip_adress")
+player_name = NodePath("Lobby/change_name/player_name")
+change_name = NodePath("Lobby/change_name/change_name")
+players_list = NodePath("Lobby/PlayerList/HBoxContainer/players_list")
 
 [node name="Pattern" type="TextureRect" parent="."]
+visible = false
 material = SubResource("ShaderMaterial_3tmtn")
 layout_mode = 1
 anchors_preset = 15
@@ -36,40 +97,51 @@ stretch_mode = 1
 [node name="ui_sounds" parent="." instance=ExtResource("4_pbife")]
 root_path = NodePath("..")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="Title_Lobby_anim" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_hu05x")
+}
+
+[node name="Title" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Title"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -104.0
-offset_top = 10.0
-offset_right = 104.0
-offset_bottom = 304.0
+offset_left = 452.0
+offset_top = 314.0
+offset_right = 660.0
+offset_bottom = 608.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Title/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 60
 
-[node name="Separator" type="Control" parent="MarginContainer/VBoxContainer"]
+[node name="Separator" type="Control" parent="Title/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Play" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="Play" type="Button" parent="Title/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Start Game"
 
-[node name="Tutorial" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="Tutorial" type="Button" parent="Title/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Tutorial"
 
-[node name="Quit" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="Quit" type="Button" parent="Title/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Quit"
 
-[node name="vbox_online" type="VBoxContainer" parent="."]
+[node name="vbox_online" type="VBoxContainer" parent="Title"]
 layout_mode = 2
 offset_left = 688.0
 offset_top = 392.0
@@ -77,27 +149,79 @@ offset_right = 896.0
 offset_bottom = 686.0
 theme_override_constants/separation = 15
 
-[node name="Host" type="Button" parent="vbox_online"]
+[node name="Host" type="Button" parent="Title/vbox_online"]
 layout_mode = 2
 text = "Host"
 
-[node name="Join" type="Button" parent="vbox_online"]
+[node name="Join" type="Button" parent="Title/vbox_online"]
 layout_mode = 2
 text = "Join"
 
-[node name="Options" parent="." instance=ExtResource("5_ayxb0")]
+[node name="get_ip_adress" type="LineEdit" parent="Title/vbox_online"]
+layout_mode = 2
+placeholder_text = "Enter IP_Adress"
+
+[node name="Options" parent="Title" instance=ExtResource("5_ayxb0")]
 visible = false
 layout_mode = 1
 
-[node name="Tutorial_Page" parent="." instance=ExtResource("7_564ke")]
+[node name="Tutorial_Page" parent="Title" instance=ExtResource("7_564ke")]
 visible = false
 layout_mode = 1
 
-[node name="Logo" type="Sprite2D" parent="."]
+[node name="Logo" type="Sprite2D" parent="Title"]
 position = Vector2(571, 223)
 scale = Vector2(0.585729, 0.57493)
 texture = ExtResource("7_tydca")
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Tutorial" to="." method="_on_tutorial_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[node name="Lobby" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="change_name" type="VBoxContainer" parent="Lobby"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 128.0
+offset_top = 64.0
+offset_right = 512.0
+offset_bottom = 122.0
+grow_horizontal = 2
+
+[node name="player_name" type="Label" parent="Lobby/change_name"]
+layout_mode = 2
+
+[node name="change_name" type="LineEdit" parent="Lobby/change_name"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "New_name"
+
+[node name="PlayerList" type="Control" parent="Lobby"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Lobby/PlayerList"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.6
+anchor_top = 1.6
+anchor_right = 8.0
+anchor_bottom = 14.4
+
+[node name="players_list" type="RichTextLabel" parent="Lobby/PlayerList/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+
+[connection signal="pressed" from="Title/MarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Title/MarginContainer/VBoxContainer/Tutorial" to="." method="_on_tutorial_pressed"]
+[connection signal="pressed" from="Title/MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Title/vbox_online/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="Title/vbox_online/Join" to="." method="_on_join_pressed"]
+[connection signal="text_changed" from="Lobby/change_name/change_name" to="." method="_on_change_name_text_changed"]

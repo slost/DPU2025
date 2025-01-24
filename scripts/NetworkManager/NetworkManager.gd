@@ -55,7 +55,7 @@ func _client_connected(peer_id :int)  -> void:
 	
 	await get_tree().create_timer(0.1).timeout
 	players[peer_id] = {
-		"Name" : "Host", 
+		"Name" : str(peer_id), 
 		"Head" : 0, 
 		"Face" : 0, 
 		"Color" : Color(0, 0, 0), 
@@ -97,6 +97,7 @@ func _client_connected_to_server_failed() -> void:
 	print("Can't connected to server")
 	connected_to_server_failed.emit()
 
+
 #Server disconnected
 func _server_disconnected() -> void:
 	players.clear()
@@ -106,8 +107,13 @@ func _server_disconnected() -> void:
 	print("SERRVER DISCONNECTED")
 	server_disconnected.emit()
 
+
 #Sync
 #sync_player_data
 @rpc("authority", "reliable")
 func _sync_player_info(new_info :Dictionary) -> void:
 	players = new_info
+
+
+#func set_player_data(key: String, data):
+	#players[key] = data
