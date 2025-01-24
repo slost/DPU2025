@@ -37,3 +37,4 @@ func _on_b_host_pressed() -> void:
 func _on_b_join_pressed() -> void:
 	if multiplayer.is_server(): return
 	NetworkManager._create_client(ip_adress.text)
+	
