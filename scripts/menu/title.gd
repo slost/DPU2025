@@ -6,8 +6,11 @@ extends Control
 @onready var options_menu = $Options as OptionsMenu
 @onready var tutorial_page = $Tutorial_Page as TutorialPage
 @onready var game_logo = $Logo as Sprite2D
+@export var vbox_online :VBoxContainer
+
 
 func _ready() -> void:
+	vbox_online.visible = false
 	handle_connecting_signal()
 
 
@@ -42,3 +45,7 @@ func handle_connecting_signal() -> void:
 
 	if tutorial_page != null:
 		tutorial_page.exit_tutorial_page.connect(_on_exit_tutorial_page)
+
+
+func _on_play_pressed() -> void:
+	vbox_online.visible = !vbox_online.visible

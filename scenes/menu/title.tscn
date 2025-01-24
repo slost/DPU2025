@@ -12,7 +12,7 @@
 shader = ExtResource("2_5r50l")
 shader_parameter/speed = 0.1
 
-[node name="Title" type="Control"]
+[node name="Title" type="Control" node_paths=PackedStringArray("vbox_online")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,6 +20,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_jkxbs")
+vbox_online = NodePath("vbox_online")
 
 [node name="Pattern" type="TextureRect" parent="."]
 material = SubResource("ShaderMaterial_3tmtn")
@@ -68,6 +69,22 @@ text = "Tutorial"
 layout_mode = 2
 text = "Quit"
 
+[node name="vbox_online" type="VBoxContainer" parent="."]
+layout_mode = 2
+offset_left = 688.0
+offset_top = 392.0
+offset_right = 896.0
+offset_bottom = 686.0
+theme_override_constants/separation = 15
+
+[node name="Host" type="Button" parent="vbox_online"]
+layout_mode = 2
+text = "Host"
+
+[node name="Join" type="Button" parent="vbox_online"]
+layout_mode = 2
+text = "Join"
+
 [node name="Options" parent="." instance=ExtResource("5_ayxb0")]
 visible = false
 layout_mode = 1
@@ -81,5 +98,6 @@ position = Vector2(571, 223)
 scale = Vector2(0.585729, 0.57493)
 texture = ExtResource("7_tydca")
 
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Tutorial" to="." method="_on_tutorial_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
