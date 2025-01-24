@@ -3,3 +3,4 @@
 /android/
 # Visual Studio Code specific ignore
 .vscode/
+/addons/fmod/
