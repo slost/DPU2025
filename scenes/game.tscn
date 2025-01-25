@@ -1,16 +1,15 @@
-[gd_scene load_steps=18 format=3 uid="uid://bm8l2e131vk1r"]
+[gd_scene load_steps=23 format=3 uid="uid://bm8l2e131vk1r"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_rwqlk"]
-[ext_resource type="PackedScene" uid="uid://srrvpjo26pdu" path="res://test_scene_script/test_player.tscn" id="2_ehx6p"]
-[ext_resource type="Texture2D" uid="uid://cyfw15i5k6jol" path="res://assets/sprites/ui/arrow_chose-export.png" id="3_ljges"]
-[ext_resource type="Texture2D" uid="uid://bqbl6ow8bq3w8" path="res://assets/sprites/ui/pause.png" id="5_j7r4b"]
-[ext_resource type="Texture2D" uid="uid://bip163op5ohde" path="res://assets/sprites/ui/arrow_chose.png" id="8_n554a"]
 [ext_resource type="TileSet" uid="uid://c0pp64e02whqb" path="res://assets/sprites/tileset.tres" id="2_7sss4"]
+[ext_resource type="PackedScene" uid="uid://srrvpjo26pdu" path="res://test_scene_script/test_player.tscn" id="2_ehx6p"]
 [ext_resource type="Script" path="res://scenes/map.gd" id="3_27blv"]
+[ext_resource type="Texture2D" uid="uid://cyfw15i5k6jol" path="res://assets/sprites/ui/arrow_chose-export.png" id="3_ljges"]
 [ext_resource type="Script" path="res://scenes/enitities.gd" id="4_30nps"]
+[ext_resource type="Texture2D" uid="uid://bqbl6ow8bq3w8" path="res://assets/sprites/ui/pause.png" id="5_j7r4b"]
 [ext_resource type="Texture2D" uid="uid://cujd8fauuv55i" path="res://assets/sprites/snake-head.png" id="5_ul6ux"]
 [ext_resource type="Texture2D" uid="uid://ckfjrl4qmr0k2" path="res://assets/sprites/body-clean.png" id="6_x0rc4"]
-[ext_resource type="PackedScene" path="res://scenes/entities/minion.tscn" id="7_yua1r"]
+[ext_resource type="Texture2D" uid="uid://bip163op5ohde" path="res://assets/sprites/ui/arrow_chose.png" id="8_n554a"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oswpm"]
 atlas = ExtResource("3_ljges")
@@ -131,12 +130,16 @@ offset_bottom = 800.0
 color = Color(0, 0, 0, 0.329412)
 
 [node name="Players_container" type="Node2D" parent="."]
+visible = false
+
 [node name="Map" type="TileMapLayer" parent="."]
 unique_name_in_owner = true
+visible = false
 tile_set = ExtResource("2_7sss4")
 script = ExtResource("3_27blv")
 
 [node name="Enitities" type="TileMapLayer" parent="."]
+visible = false
 tile_map_data = PackedByteArray(0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0)
 tile_set = ExtResource("2_7sss4")
 y_sort_origin = 1
@@ -144,6 +147,7 @@ script = ExtResource("4_30nps")
 
 [node name="Head" type="Sprite2D" parent="."]
 unique_name_in_owner = true
+visible = false
 position = Vector2(64, 64)
 texture = ExtResource("5_ul6ux")
 
@@ -154,6 +158,7 @@ position = Vector2(64, 192)
 texture = ExtResource("6_x0rc4")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 
 [node name="Timer" type="Timer" parent="."]
 process_callback = 0
