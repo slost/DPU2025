@@ -40,6 +40,7 @@ FmodManager="*res://addons/fmod/FmodManager.gd"
 Refs="*res://scripts/autoloads/refs.gd"
 Debug="*res://scripts/autoloads/debug.gd"
 Util="*res://scripts/autoloads/util.gd"
+Global="*res://scripts/autoloads/global.gd"
 
 [editor_plugins]
 

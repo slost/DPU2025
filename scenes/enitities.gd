@@ -4,7 +4,7 @@ extends TileMapLayer
 
 var ents_lv = 1
 
-var bubble = Bubble.new()
+var bubble = Player.new()
 
 func _ready() -> void:
 	Refs.ents = self
@@ -28,7 +28,7 @@ func move_bubble() -> void:
 	update_graphics()
 
 func update_graphics() -> void:
-	%Head.position = bubble.head_position * Refs.tile_size + Vector2i(64, 64)
+	%Head.position = bubble.head_position * Refs.tile_size + Vector2i(64, 64) # 64 is half of tile_size
 	var bubble_dir: Vector2 = bubble.direction
 	if bubble.direction == Vector2i.UP or bubble.direction == Vector2i.DOWN:
 		%Head.rotation = bubble_dir.angle_to(Vector2.LEFT)
@@ -37,7 +37,6 @@ func update_graphics() -> void:
 
 
 func create_minion() -> void:
-	return
 	var minion = bubble.minions
 	for i in range(minion.size()):
 		var minion_coords = bubble.head_position - bubble.direction * (i + 1)

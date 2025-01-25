@@ -17,20 +17,6 @@ func _ready() -> void:
 
 	draw_map()
 
-func _process(delta: float) -> void:
-	if is_pause:
-		return
-
-	tiks += 1
-
-	if tiks >= tik_per_move():
-		ents.move_bubble()
-		current_moves += 1
-		print("Moves:" + str(current_moves))
-		tiks = 0
-		
-
-
 func draw_map() -> void:
 	for x in range(map.get_size().x):
 		for y in range(map.get_size().y):
@@ -44,3 +30,12 @@ func draw_map() -> void:
 func tik_per_move() -> int:
 	var fps:int = 60
 	return int(fps / current_speed)
+
+
+func _on_timer_timeout() -> void:
+	if is_pause:
+		return
+
+	ents.move_bubble()
+	current_moves += 1
+	print("Moves:" + str(current_moves))

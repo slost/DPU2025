@@ -24,6 +24,7 @@ tile_set = ExtResource("2_7sss4")
 script = ExtResource("3_27blv")
 
 [node name="Enitities" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray(0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0)
 tile_set = ExtResource("2_7sss4")
 y_sort_origin = 1
 script = ExtResource("4_30nps")
@@ -38,3 +39,12 @@ unique_name_in_owner = true
 visible = false
 position = Vector2(64, 192)
 texture = ExtResource("6_x0rc4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 3.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
