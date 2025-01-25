@@ -46,7 +46,7 @@ gdscript/warnings/narrowing_conversion=0
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/fmod/plugin.cfg")
+enabled=PackedStringArray()
 
 [global_group]
 

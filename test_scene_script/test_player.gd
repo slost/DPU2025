@@ -1,31 +1,21 @@
 extends Sprite2D
 
+@export var face_sprite: Sprite2D
+@export var head_sprite: Sprite2D
+@export var area_player: Area2D
 
-@export var face_sprite :Sprite2D
-@export var head_sprite :Sprite2D
-@export var area_player :Area2D
-
+var health: int = 100
 
 func _ready() -> void:
-	pass
-
-
-func _cosmetic(head :int, face :int ,color :Color) -> void:
-	face_sprite.frame = face
-	head_sprite.frame = head
-	$".".self_modulate = color
-
-
-
+	area_player.connect("area_entered", Callable(self, "_on_area_player_area_entered"))
 
 func _on_area_player_area_entered(area: Area2D) -> void:
 	if area.is_in_group("players"):
-		print("IS IN GROUP")
-		area._on_area_attack()
+		area.get_parent().take_damage(10)
 
-
-func _on_area_attack() -> void:
+func take_damage(damage: int) -> void:
 	if multiplayer.is_server():
-		print("FROM SERVER")
-	else:
-		print("FROM CLIENT")
+		health -= damage
+		if health <= 0:
+			print("Player defeated!")
+			# Handle player defeat logic here
