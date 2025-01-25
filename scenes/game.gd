@@ -41,9 +41,10 @@ func _ready() -> void:
 			#sync plaeyr info
 			if player_id != 1:
 				_sync_player_info.rpc_id(player_id, players_info)
-			_spawn_player(player_id)
+			await get_tree().create_timer(0.1).timeout
+			_spawn_player.rpc(player_id)
 			
-	draw_map()
+	#draw_map()
 
 #Input
 func _input(event: InputEvent) -> void:
@@ -126,6 +127,7 @@ func _move_player(player_id: int, direction: String, distanc: int) -> void:
 	else:
 		print("Error: Invalid direction '", direction, "'.")
 
+@rpc("authority", "reliable", "call_local")
 func _spawn_player(peer_id :int) -> void:
 	var player :Sprite2D = player_instance.instantiate() as Sprite2D
 	player.name = str(peer_id)
@@ -162,33 +164,33 @@ func _sync_player_info(new_info :Dictionary) -> void:
 	players_info = new_info
 
 
-func _process(delta: float) -> void:
-	if is_pause:
-		return
-
-	tiks += 1
-
-	if tiks >= tik_per_move():
-		ents.move_bubble()
-		current_moves += 1
-		print("Moves:" + str(current_moves))
-		tiks = 0
-		
-
-
-func draw_map() -> void:
-	for x in range(map.get_size().x):
-		for y in range(map.get_size().y):
-			var coords = Vector2i(x, y)
-			if (x + y) % 2 == 0:
-				map.set_cell(coords, 0, Vector2(0, 0))  # Tile at (0, 0)
-			else:
-				map.set_cell(coords, 0, Vector2(1, 0))  # Tile at (0, 1)
-	ents.set_starting_position(Refs.Position.Middle)
-
-func tik_per_move() -> int:
-	var fps:int = 60
-	return int(fps / current_speed)
+#func _process(delta: float) -> void:
+	#if is_pause:
+		#return
+#
+	#tiks += 1
+#
+	#if tiks >= tik_per_move():
+		#ents.move_bubble()
+		#current_moves += 1
+		#print("Moves:" + str(current_moves))
+		#tiks = 0
+		#
+#
+#
+#func draw_map() -> void:
+	#for x in range(map.get_size().x):
+		#for y in range(map.get_size().y):
+			#var coords = Vector2i(x, y)
+			#if (x + y) % 2 == 0:
+				#map.set_cell(coords, 0, Vector2(0, 0))  # Tile at (0, 0)
+			#else:
+				#map.set_cell(coords, 0, Vector2(1, 0))  # Tile at (0, 1)
+	#ents.set_starting_position(Refs.Position.Middle)
+#
+#func tik_per_move() -> int:
+	#var fps:int = 60
+	#return int(fps / current_speed)
 
 
 func _on_timer_timeout() -> void:

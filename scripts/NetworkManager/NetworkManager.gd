@@ -45,7 +45,7 @@ func _create_server() -> Error:
 func _create_client(address :String = "") -> void:
 	var peer :ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 	if address.is_empty():
-		address = Defult_server_ip
+		address = "localhost"
 	peer.create_client(address, PORT)
 	multiplayer.multiplayer_peer = peer
 	
