@@ -129,7 +129,6 @@ func _move_player(player_id: int, direction: String, distanc: int) -> void:
 func _spawn_player(peer_id :int) -> void:
 	var player :Sprite2D = player_instance.instantiate() as Sprite2D
 	player.name = str(peer_id)
-	
 	player_container.add_child(player, true)
 
 

@@ -27,6 +27,11 @@ extends Control
 @export var head_overview :Sprite2D
 @export var color_picker : ColorPicker
 
+#fmod setup 
+var banks := Array()
+var uiSfx : FmodEvent = null
+
+
 
 func _ready() -> void:
 	#Title
@@ -41,6 +46,14 @@ func _ready() -> void:
 	NetworkManager.connected_to_server_failed.connect(_connected_to_server_failed)
 	NetworkManager.server_disconnected.connect(_server_disconnected)
 	
+	# Fmod setup 
+	var fmodBanksPath = "res://fmod/DPU2025/Build/Desktop/"
+	banks.append(FmodServer.load_bank(fmodBanksPath+"Master.bank", FmodServer.FMOD_STUDIO_LOAD_BANK_NORMAL))
+	banks.append(FmodServer.load_bank(fmodBanksPath+"Master.strings.bank", FmodServer.FMOD_STUDIO_LOAD_BANK_NORMAL))
+	banks.append(FmodServer.load_bank(fmodBanksPath+"music.bank", FmodServer.FMOD_STUDIO_LOAD_BANK_NORMAL))
+	banks.append(FmodServer.load_bank(fmodBanksPath+"sfx.bank", FmodServer.FMOD_STUDIO_LOAD_BANK_NORMAL))
+	uiSfx = FmodServer.create_event_instance("event:/ui")
+	
 
 
 #//////////////////////////
@@ -50,17 +63,20 @@ func _on_tutorial_pressed() -> void:
 	margin_container.visible = false
 	game_logo.visible = false
 	tutorial_page.visible = true
+	uiSfx.start()
 	
 func _on_exit_tutorial_page() -> void:
 	margin_container.visible = true
 	game_logo.visible = true
 	tutorial_page.visible = false
+	
 
 func _on_options_pressed() -> void:
 	options_menu.set_process(true)
 	margin_container.visible = false
 	game_logo.visible = false
 	options_menu.visible = true
+	uiSfx.start()
 
 func _on_exit_options_menu() -> void:
 	margin_container.visible = true
@@ -69,6 +85,7 @@ func _on_exit_options_menu() -> void:
 
 func _on_quit_pressed() -> void:
 	get_tree().quit()
+	uiSfx.start()
 
 func handle_connecting_signal() -> void:
 	if options_menu != null:
@@ -80,6 +97,7 @@ func handle_connecting_signal() -> void:
 
 func _on_play_pressed() -> void:
 	vbox_online.visible = !vbox_online.visible
+	uiSfx.start()
 
 
 #///////////////////////////
@@ -157,6 +175,7 @@ func _on_host_pressed() -> void:
 	b_play.visible = true
 	b_ready.visible = false
 	#set_frame
+	uiSfx.start()
 	
 
 
@@ -171,6 +190,7 @@ func _on_join_pressed() -> void:
 	NetworkManager._create_client(get_ip_adress.text)
 	b_play.visible = false
 	b_ready.visible = true
+	uiSfx.start()
 	
 
 
@@ -204,6 +224,7 @@ func _on_change_name_text_changed(new_text: String) -> void:
 
 #Play 
 func _on_b_play_pressed() -> void:
+	uiSfx.start()
 	if !multiplayer.is_server(): return
 	await get_tree().physics_frame
 	
@@ -220,6 +241,7 @@ func _on_b_play_pressed() -> void:
 
 #Ready
 func _on_b_ready_pressed() -> void:
+	uiSfx.start()
 	if !multiplayer.is_server(): _request_client_ready.rpc_id(1)
 
 
@@ -254,6 +276,7 @@ func _request_change_character(peer_id :int, part :String, frame :int) -> void:
 #///////////////////////////////////////
 #Button change character frame
 func _on_b_left_head_pressed() -> void:
+	uiSfx.start() 
 	if head_sprite.frame == 0 :
 		head_sprite.frame = 2 
 	else:
@@ -261,6 +284,7 @@ func _on_b_left_head_pressed() -> void:
 	_change_chracter(multiplayer.get_unique_id(), "Head", head_sprite.frame)
 
 func _on_b_left_face_pressed() -> void:
+	uiSfx.start()
 	if face_sprite.frame == 0 :
 		face_sprite.frame = 2 
 	else:
@@ -268,6 +292,7 @@ func _on_b_left_face_pressed() -> void:
 	_change_chracter(multiplayer.get_unique_id(), "Face", face_sprite.frame)
 
 func _on_b_right_head_pressed() -> void:
+	uiSfx.start()
 	if head_sprite.frame == 2 :
 		head_sprite.frame = 0 
 	else:
@@ -275,6 +300,7 @@ func _on_b_right_head_pressed() -> void:
 	_change_chracter(multiplayer.get_unique_id(), "Head", head_sprite.frame)
 
 func _on_b_right_face_pressed() -> void:
+	uiSfx.start()
 	if face_sprite.frame == 2 :
 		face_sprite.frame = 0
 	else:
