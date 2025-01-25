@@ -9,6 +9,7 @@ var direction: Vector2i = Vector2i.RIGHT
 var speed: float = 1
 var head_position: Vector2i = Vector2i(0, 0)
 var core_scene: PackedScene = preload("res://scenes/entities/core.tscn")
+var minion_scene: PackedScene = preload("res://scenes/entities/minion.tscn")
 
 var lv_ents = Refs.ZLevel.Entities
 
@@ -23,17 +24,21 @@ func _ready() -> void:
 	inst_core.position = position * Refs.tile_size + Vector2i(64, 64)
 	add_child(inst_core)
 
-# func create_minions() -> void:
-# 	# Create 4 mionions aroud the head (4 directions: Top, Right, Bottom, Left)
-# 	var dir: Array = [Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT]
-# 	for i in range(4):
-# 		var inst_minion = Minion.new()
-# 		minions.append(inst_minion)
-# 		minions[i].position = dir[i]
-# 		minions[i].global_position = head_position + dir[i]
-# 		Global.world.set_cell(minions[i].global_position, inst_minion)
-# 		add_child(inst_minion)	
-# 		print(Global.world.grid[inst_minion.global_position.x][inst_minion.global_position.y]["Entity"])
+func create_minions() -> void:
+	# Create 4 mionions aroud the head (4 directions: Top, Right, Bottom, Left)
+	var dir: Array = [Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT]
+	for i in range(4):
+		var inst_minion = Minion.new()
+		var sprite_minion = minion_scene.instantiate()
+		minions.append(inst_minion)
+		minions[i].position = dir[i]
+		minions[i].global_position = head_position + dir[i]
+		# Global.world.set_cell(minions[i].global_position, inst_minion)
+		add_child(inst_minion)
+		sprite_minion.global_position = minions[i].global_position * Refs.tile_size + Vector2i(64, 64)
+		# add_child(sprite_minion)
+
+		print(Global.world.grid[inst_minion.global_position.x][inst_minion.global_position.y]["Entity"])
 
 # func game_over() -> void:
 # 	print("Game Over")

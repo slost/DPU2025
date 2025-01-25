@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://uug6edei5bqt"]
+[gd_scene load_steps=8 format=3 uid="uid://uug6edei5bqt"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_rwqlk"]
 [ext_resource type="TileSet" uid="uid://c0pp64e02whqb" path="res://assets/sprites/tileset.tres" id="2_7sss4"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scenes/enitities.gd" id="4_30nps"]
 [ext_resource type="Texture2D" uid="uid://cujd8fauuv55i" path="res://assets/sprites/snake-head.png" id="5_ul6ux"]
 [ext_resource type="Texture2D" uid="uid://ckfjrl4qmr0k2" path="res://assets/sprites/body-clean.png" id="6_x0rc4"]
+[ext_resource type="PackedScene" uid="uid://vv3l511dgd7l" path="res://scenes/entities/minion.tscn" id="7_yua1r"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_rwqlk")
@@ -46,5 +47,7 @@ texture = ExtResource("6_x0rc4")
 process_callback = 0
 wait_time = 3.0
 autostart = true
+
+[node name="Minion" parent="." instance=ExtResource("7_yua1r")]
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://vv3l511dgd7l"]
+
+[ext_resource type="Texture2D" uid="uid://mb8a1da6a3dh" path="res://assets/sprites/tileset.png" id="1_c7i5m"]
+
+[node name="Minion" type="Sprite2D"]
+position = Vector2(64, 64)
+texture = ExtResource("1_c7i5m")
+hframes = 5
+vframes = 5
+frame = 3
