@@ -64,7 +64,7 @@ _data = {
 "change_color_to_title": SubResource("Animation_pk2sq")
 }
 
-[node name="Title" type="Control" node_paths=PackedStringArray("title", "lobby", "vbox_online", "bg", "title_lobby_anim", "get_ip_adress", "player_name", "change_name", "players_list")]
+[node name="Title" type="Control" node_paths=PackedStringArray("title", "lobby", "vbox_online", "bg", "title_lobby_anim", "get_ip_adress", "player_name", "change_name", "players_list", "b_play", "b_ready")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -81,6 +81,8 @@ get_ip_adress = NodePath("Title/vbox_online/get_ip_adress")
 player_name = NodePath("Lobby/change_name/player_name")
 change_name = NodePath("Lobby/change_name/change_name")
 players_list = NodePath("Lobby/PlayerList/HBoxContainer/players_list")
+b_play = NodePath("Lobby/B_play")
+b_ready = NodePath("Lobby/B_ready")
 
 [node name="Pattern" type="TextureRect" parent="."]
 visible = false
@@ -182,6 +184,89 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Create_character" type="Control" parent="Lobby"]
+layout_mode = 1
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Lobby/Create_character"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -132.0
+offset_right = 160.0
+offset_bottom = 252.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Lobby/Create_character/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="B_left_head" type="TextureButton" parent="Lobby/Create_character/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="B_left_face" type="TextureButton" parent="Lobby/Create_character/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TextureButton3" type="TextureButton" parent="Lobby/Create_character/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Lobby/Create_character/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Head_texture" type="TextureRect" parent="Lobby/Create_character/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Face_texture" type="TextureRect" parent="Lobby/Create_character/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Color_texture" type="TextureRect" parent="Lobby/Create_character/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="Lobby/Create_character/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="B_right_head" type="TextureButton" parent="Lobby/Create_character/HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="B_right_head2" type="TextureButton" parent="Lobby/Create_character/HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TextureButton3" type="TextureButton" parent="Lobby/Create_character/HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="color_picker" type="ColorPicker" parent="Lobby/Create_character"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 104.0
+offset_top = 256.0
+offset_right = 368.0
+offset_bottom = 832.0
+grow_horizontal = 2
+scale = Vector2(0.5, 0.5)
+picker_shape = 1
+
 [node name="change_name" type="VBoxContainer" parent="Lobby"]
 layout_mode = 1
 anchors_preset = 5
@@ -219,9 +304,27 @@ layout_mode = 2
 size_flags_horizontal = 3
 bbcode_enabled = true
 
+[node name="B_play" type="Button" parent="Lobby"]
+layout_mode = 0
+offset_left = 896.0
+offset_top = 512.0
+offset_right = 1089.0
+offset_bottom = 607.0
+text = "Play"
+
+[node name="B_ready" type="Button" parent="Lobby"]
+layout_mode = 0
+offset_left = 896.0
+offset_top = 512.0
+offset_right = 1088.0
+offset_bottom = 607.0
+text = "Ready"
+
 [connection signal="pressed" from="Title/MarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="Title/MarginContainer/VBoxContainer/Tutorial" to="." method="_on_tutorial_pressed"]
 [connection signal="pressed" from="Title/MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="Title/vbox_online/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="Title/vbox_online/Join" to="." method="_on_join_pressed"]
 [connection signal="text_changed" from="Lobby/change_name/change_name" to="." method="_on_change_name_text_changed"]
+[connection signal="pressed" from="Lobby/B_play" to="." method="_on_b_play_pressed"]
+[connection signal="pressed" from="Lobby/B_ready" to="." method="_on_b_ready_pressed"]

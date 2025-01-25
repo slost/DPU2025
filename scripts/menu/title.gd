@@ -3,10 +3,10 @@ extends Control
 
 
 #Title
-@onready var margin_container = $Title/MarginContainer as MarginContainer
-@onready var options_menu = $Title/Options as OptionsMenu
-@onready var tutorial_page = $Title/Tutorial_Page as TutorialPage
-@onready var game_logo = $Title/Logo as Sprite2D
+@onready var margin_container :MarginContainer = $Title/MarginContainer
+@onready var options_menu :OptionsMenu = $Title/Options
+@onready var tutorial_page :TutorialPage = $Title/Tutorial_Page
+@onready var game_logo :Sprite2D = $Title/Logo
 @export var title :Control
 @export var lobby :Control
 @export var vbox_online :VBoxContainer
@@ -18,7 +18,8 @@ extends Control
 @export var player_name :Label
 @export var change_name :LineEdit
 @export var players_list :RichTextLabel
-
+@export var b_play :Button
+@export var b_ready :Button
 
 func _ready() -> void:
 	#Title
@@ -75,21 +76,19 @@ func _on_play_pressed() -> void:
 
 #///////////////////////////
 #Lobby
-
+#Debuging
 func _input(event: InputEvent) -> void:
 	if multiplayer.multiplayer_peer == null: return
 	if multiplayer.is_server():
 		if event.is_action_pressed("ui_accept"):
-			_show_player_list()
-			_show_player_name.rpc()
 			print(NetworkManager.players)
 	else:
 		if event.is_action_pressed("ui_down"):
 			print(NetworkManager.players)
 
-#/////////////
-#NAME
 
+#//////////////////////////////////
+#NAME
 #chane player name
 func _change_player_name(new_name :String) -> void:
 	if multiplayer.is_server():
@@ -101,6 +100,7 @@ func _change_player_name(new_name :String) -> void:
 		_request_change_player_name.rpc_id(1, new_name)
 	
 
+#request change name
 @rpc("any_peer", "reliable", "call_local")
 func _request_change_player_name(new_name :String) -> void:
 	if !multiplayer.is_server(): return
@@ -117,11 +117,23 @@ func _show_player_name() -> void:
 	player_name.text = str(NetworkManager.players[my_peer]["Name"])
 
 #show player list
+
+func _is_ready_player(p:bool) -> String:
+	if p :
+		return "Ready : YES"
+	else:
+		return "Ready : NO"
+
 @rpc("authority", "reliable", "call_local")
 func _show_player_list() -> void:
 	players_list.text = ""
 	for player_id :int in NetworkManager.players.keys():
-		players_list.text += NetworkManager.players[player_id].Name + "\n"
+		#var ready_player :bool = NetworkManager.players[player_id].Ready
+		players_list.text += "%s Ready :%s\n" % [NetworkManager.players[player_id].Name, "YES" if NetworkManager.players[player_id].Ready else "No"]
+		#players_list.text += NetworkManager.players[player_id].Name + _is_ready_player(ready_player) + "\n"
+
+#//////////////////////////////////
+
 
 
 func _on_host_pressed() -> void:
@@ -134,6 +146,8 @@ func _on_host_pressed() -> void:
 	NetworkManager._create_server()
 	_show_player_name()
 	_show_player_list.rpc()
+	b_play.visible = true
+	b_ready.visible = false
 
 
 func _on_join_pressed() -> void:
@@ -145,6 +159,8 @@ func _on_join_pressed() -> void:
 		title.visible = false
 		lobby.visible = true
 	NetworkManager._create_client(get_ip_adress.text)
+	b_play.visible = false
+	b_ready.visible = true
 	
 
 
@@ -159,6 +175,8 @@ func _client_disconnected(peer_id :int) -> void:
 func _connected_to_server() -> void:
 	print("connected to server!!")
 	#_show_player_name()
+	b_play.visible = false
+	b_ready.visible = true
 
 func _connected_to_server_failed() -> void:
 	print("Connected tp server failed")
@@ -169,3 +187,31 @@ func _server_disconnected() -> void:
 
 func _on_change_name_text_changed(new_text: String) -> void:
 	_change_player_name(new_text)
+
+
+#Play 
+func _on_b_play_pressed() -> void:
+	if !multiplayer.is_server(): return
+	await get_tree().physics_frame
+	
+	var found_ready :Array
+	for player_id :int in NetworkManager.players.keys():
+		found_ready.append(NetworkManager.players[player_id]["Ready"])
+	
+	if !found_ready.has(false):
+		await get_tree().create_timer(0.1).timeout
+		#NetworkManager._load_game.rpc("")
+		print("CHANGE SCENE")
+	else: return
+
+#Ready
+func _on_b_ready_pressed() -> void:
+	if !multiplayer.is_server(): _request_client_ready.rpc_id(1)
+
+#Ready change ready from client
+@rpc("any_peer", "reliable")
+func _request_client_ready() -> void:
+	if !multiplayer.is_server(): return
+	var sender_id :int = multiplayer.get_remote_sender_id()
+	NetworkManager.players[sender_id]["Ready"] = !NetworkManager.players[sender_id]["Ready"]
+	NetworkManager._sync_player_info.rpc(NetworkManager.players)

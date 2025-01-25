@@ -36,6 +36,7 @@ func _create_server() -> Error:
 		"Head" : 0, 
 		"Face" : 0, 
 		"Color" : Color(0, 0, 0), 
+		"Ready" : true, 
 	}
 	print("HOST!!")
 	return OK
@@ -59,6 +60,7 @@ func _client_connected(peer_id :int)  -> void:
 		"Head" : 0, 
 		"Face" : 0, 
 		"Color" : Color(0, 0, 0), 
+		"Ready" : false, 
 	}
 	
 	#sync_player_info
@@ -117,3 +119,10 @@ func _sync_player_info(new_info :Dictionary) -> void:
 
 #func set_player_data(key: String, data):
 	#players[key] = data
+
+# When the server decides to start the game from a UI scene,
+# do NetworkManager.load_game.rpc(filepath)
+@rpc("call_local", "reliable")
+func _load_game(game_scene_path :String) -> void:
+	await get_tree().physics_frame
+	get_tree().change_scene_to_file(game_scene_path)
