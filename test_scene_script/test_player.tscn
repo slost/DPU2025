@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://srrvpjo26pdu"]
+
+[ext_resource type="Texture2D" uid="uid://cgtnbneh2bl17" path="res://icon.svg" id="1_qowck"]
+[ext_resource type="Script" path="res://test_scene_script/test_player.gd" id="2_72r6y"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ym1c5"]
+
+[node name="test_player" type="Sprite2D"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_qowck")
+script = ExtResource("2_72r6y")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_ym1c5")

@@ -85,7 +85,6 @@ b_play = NodePath("Lobby/B_play")
 b_ready = NodePath("Lobby/B_ready")
 
 [node name="Pattern" type="TextureRect" parent="."]
-visible = false
 material = SubResource("ShaderMaterial_3tmtn")
 layout_mode = 1
 anchors_preset = 15
