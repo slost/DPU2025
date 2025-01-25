@@ -38,6 +38,8 @@ config/icon="res://icon.svg"
 NetworkManager="*res://scripts/NetworkManager/NetworkManager.gd"
 FmodManager="*res://addons/fmod/FmodManager.gd"
 Refs="*res://scripts/autoloads/refs.gd"
+Debug="*res://scripts/autoloads/debug.gd"
+Util="*res://scripts/autoloads/util.gd"
 
 [editor_plugins]
 
