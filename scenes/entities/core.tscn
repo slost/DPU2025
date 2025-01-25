@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://nenqtwvrn6ou"]
+
+[ext_resource type="Texture2D" uid="uid://cujd8fauuv55i" path="res://assets/sprites/snake-head.png" id="1_eojs1"]
+
+[node name="Core" type="Sprite2D"]
+position = Vector2(64, 64)
+texture = ExtResource("1_eojs1")
+
+[node name="Camera2D" type="Camera2D" parent="."]

@@ -1,14 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://qw3oiwu7vaa6"]
+[gd_scene load_steps=4 format=3 uid="uid://qw3oiwu7vaa6"]
 
 [ext_resource type="Script" path="res://scripts/classes/world.gd" id="1_5abo1"]
 [ext_resource type="TileSet" uid="uid://c0pp64e02whqb" path="res://assets/sprites/tileset.tres" id="2_rf75a"]
 [ext_resource type="Script" path="res://scenes/map.gd" id="3_fabbe"]
-[ext_resource type="Texture2D" uid="uid://cujd8fauuv55i" path="res://assets/sprites/snake-head.png" id="4_fnuwm"]
 
 [node name="World" type="Node2D" node_paths=PackedStringArray("tile_map")]
 script = ExtResource("1_5abo1")
-size = null
-player_amount = null
 tile_map = NodePath("Map")
 
 [node name="Map" type="TileMapLayer" parent="."]
@@ -16,7 +13,6 @@ unique_name_in_owner = true
 tile_set = ExtResource("2_rf75a")
 script = ExtResource("3_fabbe")
 
-[node name="Head" type="Sprite2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(64, 64)
-texture = ExtResource("4_fnuwm")
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

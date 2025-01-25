@@ -17,6 +17,7 @@ func set_starting_position(target_position: int) -> void:
 			starting_pos = Vector2i(int(size.x / 2), int(size.y / 2))
 		_:
 			starting_pos = Vector2i(0, 0)
+	
 	set_cell(starting_pos, ents_lv, Refs.enitities_atlas["Head"])
 	bubble.head_position = starting_pos
 	print("Starting position set to: " + str(starting_pos))
