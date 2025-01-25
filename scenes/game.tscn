@@ -1,15 +1,18 @@
-[gd_scene load_steps=7 format=4 uid="uid://uug6edei5bqt"]
+[gd_scene load_steps=8 format=4 uid="uid://bm8l2e131vk1r"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_rwqlk"]
-[ext_resource type="TileSet" uid="uid://c0pp64e02whqb" path="res://assets/sprites/tileset.tres" id="2_7sss4"]
+[ext_resource type="TileSet" uid="uid://cmwwta3ly4v5d" path="res://assets/sprites/tileset.tres" id="2_7sss4"]
+[ext_resource type="PackedScene" uid="uid://srrvpjo26pdu" path="res://test_scene_script/test_player.tscn" id="2_ehx6p"]
 [ext_resource type="Script" path="res://scenes/map.gd" id="3_27blv"]
 [ext_resource type="Script" path="res://scenes/enitities.gd" id="4_30nps"]
 [ext_resource type="Texture2D" uid="uid://cujd8fauuv55i" path="res://assets/sprites/snake-head.png" id="5_ul6ux"]
 [ext_resource type="Texture2D" uid="uid://ckfjrl4qmr0k2" path="res://assets/sprites/body-clean.png" id="6_x0rc4"]
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("player_container")]
 script = ExtResource("1_rwqlk")
 speed_multiplier = 2.0
+player_instance = ExtResource("2_ehx6p")
+player_container = NodePath("Players_container")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
@@ -38,3 +41,16 @@ texture = ExtResource("5_ul6ux")
 unique_name_in_owner = true
 position = Vector2(64, 192)
 texture = ExtResource("6_x0rc4")
+
+[node name="Players_container" type="Node2D" parent="."]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://test_scene_script/test_player.tscn")
+spawn_path = NodePath("../Players_container")
+
+[node name="Timer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 3.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

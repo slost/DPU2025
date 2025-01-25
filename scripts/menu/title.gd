@@ -169,8 +169,10 @@ func _client_connected(peer_id :int) -> void:
 	_show_player_name.rpc()
 	_show_player_list.rpc()
 
+
 func _client_disconnected(peer_id :int) -> void:
 	print("CLIENT ID:", peer_id, "Disconnected")
+
 
 func _connected_to_server() -> void:
 	print("connected to server!!")
@@ -180,6 +182,7 @@ func _connected_to_server() -> void:
 
 func _connected_to_server_failed() -> void:
 	print("Connected tp server failed")
+
 
 func _server_disconnected() -> void:
 	print("server disconnected")
@@ -200,13 +203,15 @@ func _on_b_play_pressed() -> void:
 	
 	if !found_ready.has(false):
 		await get_tree().create_timer(0.1).timeout
-		#NetworkManager._load_game.rpc("")
+		NetworkManager._load_game.rpc("res://scenes/game.tscn")
 		print("CHANGE SCENE")
 	else: return
+
 
 #Ready
 func _on_b_ready_pressed() -> void:
 	if !multiplayer.is_server(): _request_client_ready.rpc_id(1)
+
 
 #Ready change ready from client
 @rpc("any_peer", "reliable")
@@ -215,3 +220,4 @@ func _request_client_ready() -> void:
 	var sender_id :int = multiplayer.get_remote_sender_id()
 	NetworkManager.players[sender_id]["Ready"] = !NetworkManager.players[sender_id]["Ready"]
 	NetworkManager._sync_player_info.rpc(NetworkManager.players)
+	_show_player_list.rpc()
