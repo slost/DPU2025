@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=4 uid="uid://bm8l2e131vk1r"]
+[gd_scene load_steps=20 format=4 uid="uid://bm8l2e131vk1r"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_rwqlk"]
 [ext_resource type="TileSet" uid="uid://cmwwta3ly4v5d" path="res://assets/sprites/tileset.tres" id="2_7sss4"]
@@ -7,6 +7,105 @@
 [ext_resource type="Script" path="res://scenes/enitities.gd" id="4_30nps"]
 [ext_resource type="Texture2D" uid="uid://cujd8fauuv55i" path="res://assets/sprites/snake-head.png" id="5_ul6ux"]
 [ext_resource type="Texture2D" uid="uid://ckfjrl4qmr0k2" path="res://assets/sprites/body-clean.png" id="6_x0rc4"]
+[ext_resource type="Texture2D" uid="uid://bip163op5ohde" path="res://assets/sprites/ui/arrow_chose.png" id="8_n554a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h5mup"]
+atlas = ExtResource("8_n554a")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mjarv"]
+atlas = ExtResource("8_n554a")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nqrrf"]
+atlas = ExtResource("8_n554a")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6vqy4"]
+atlas = ExtResource("8_n554a")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h7swh"]
+atlas = ExtResource("8_n554a")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q8b3e"]
+atlas = ExtResource("8_n554a")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mvw7s"]
+atlas = ExtResource("8_n554a")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a4l5c"]
+atlas = ExtResource("8_n554a")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_puyue"]
+atlas = ExtResource("8_n554a")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m0baf"]
+atlas = ExtResource("8_n554a")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_re5d1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h5mup")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mjarv")
+}],
+"loop": true,
+"name": &"down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nqrrf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6vqy4")
+}],
+"loop": true,
+"name": &"left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h7swh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q8b3e")
+}],
+"loop": true,
+"name": &"right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mvw7s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a4l5c")
+}],
+"loop": true,
+"name": &"stop",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_puyue")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m0baf")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}]
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("player_container")]
 script = ExtResource("1_rwqlk")
@@ -50,5 +149,12 @@ wait_time = 3.0
 autostart = true
 
 [node name="Duplicate_items" type="Node2D" parent="."]
+
+[node name="anim_game" type="AnimatedSprite2D" parent="Duplicate_items"]
+visible = false
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_re5d1")
+animation = &"right"
+flip_h = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

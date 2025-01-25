@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://rcyrv0xwolqb" path="res://scenes/options/ui_sounds.tscn" id="4_pbife"]
 [ext_resource type="PackedScene" uid="uid://chwebnol1raip" path="res://scenes/options/options.tscn" id="5_ayxb0"]
 [ext_resource type="PackedScene" uid="uid://cmr2jcqhqdi3l" path="res://scenes/menu/tutorial.tscn" id="7_564ke"]
-[ext_resource type="Texture2D" uid="uid://cswtvwr5ar6k2" path="res://assets/mock_logo.png" id="7_tydca"]
+[ext_resource type="Texture2D" uid="uid://bm2pj5epoeigl" path="res://assets/sprites/ui/logo_draft-export.png" id="7_mn4j0"]
 [ext_resource type="Texture2D" uid="uid://dml0rdker7phy" path="res://assets/sprites/characters/head.png" id="8_hcsac"]
 [ext_resource type="Texture2D" uid="uid://bejhebb85t725" path="res://assets/sprites/ui/arrow_idle.png" id="8_kxq8m"]
 [ext_resource type="Texture2D" uid="uid://blj54sy48suwn" path="res://assets/sprites/ui/arrow_press.png" id="9_1uokn"]
@@ -96,7 +96,6 @@ head_overview = NodePath("Lobby/Create_character/HBoxContainer/VBoxContainer2/ov
 color_picker = NodePath("Lobby/Create_character/color_picker")
 
 [node name="Pattern" type="TextureRect" parent="."]
-visible = false
 material = SubResource("ShaderMaterial_3tmtn")
 layout_mode = 1
 anchors_preset = 15
@@ -185,7 +184,7 @@ layout_mode = 1
 [node name="Logo" type="Sprite2D" parent="Title"]
 position = Vector2(571, 223)
 scale = Vector2(0.585729, 0.57493)
-texture = ExtResource("7_tydca")
+texture = ExtResource("7_mn4j0")
 
 [node name="Lobby" type="Control" parent="."]
 layout_mode = 1

@@ -88,7 +88,7 @@ func _on_play_pressed() -> void:
 func _input(event: InputEvent) -> void:
 	if multiplayer.multiplayer_peer == null: return
 	if multiplayer.is_server():
-		if event.is_action_pressed("ui_accept"):
+		if event.is_action_pressed("ui_cancel"):
 			print(NetworkManager.players)
 	else:
 		if event.is_action_pressed("ui_down"):
@@ -238,18 +238,16 @@ func _change_chracter(peer_id :int, part :String, frame :int) -> void:
 	if multiplayer.is_server():
 		NetworkManager.players[peer_id][part] = frame
 		NetworkManager._sync_player_info.rpc(NetworkManager.players)
-		head_overview.frame = NetworkManager.players[peer_id]["Head"]
-		face_overview.frame = NetworkManager.players[peer_id]["Face"]
+
 	else:
-		_request_change_character.rpc_id(1, peer_id, part, frame)
+		_request_change_character.rpc_id(1, peer_id , part, frame)
 
 @rpc("any_peer", "reliable")
 func _request_change_character(peer_id :int, part :String, frame :int) -> void:
 	if !multiplayer.is_server(): return
 	NetworkManager.players[peer_id][part] = frame
 	NetworkManager._sync_player_info.rpc(NetworkManager.players)
-	head_overview.frame = NetworkManager.players[peer_id]["Head"]
-	face_overview.frame = NetworkManager.players[peer_id]["Face"]
+
 
 #///////////////////////////////////////
 #Button change character frame
@@ -258,6 +256,7 @@ func _on_b_left_head_pressed() -> void:
 		head_sprite.frame = 2 
 	else:
 		head_sprite.frame -= 1 
+	head_overview.frame = head_sprite.frame
 	_change_chracter(multiplayer.get_unique_id(), "Head", head_sprite.frame)
 
 func _on_b_left_face_pressed() -> void:
@@ -265,6 +264,7 @@ func _on_b_left_face_pressed() -> void:
 		face_sprite.frame = 2 
 	else:
 		face_sprite.frame -= 1 
+	face_overview.frame = face_sprite.frame
 	_change_chracter(multiplayer.get_unique_id(), "Face", face_sprite.frame)
 
 func _on_b_right_head_pressed() -> void:
@@ -272,6 +272,7 @@ func _on_b_right_head_pressed() -> void:
 		head_sprite.frame = 0 
 	else:
 		head_sprite.frame += 1 
+	head_overview.frame = head_sprite.frame
 	_change_chracter(multiplayer.get_unique_id(), "Head", head_sprite.frame)
 
 func _on_b_right_face_pressed() -> void:
@@ -279,6 +280,7 @@ func _on_b_right_face_pressed() -> void:
 		face_sprite.frame = 0
 	else:
 		face_sprite.frame += 1 
+	face_overview.frame = face_sprite.frame
 	_change_chracter(multiplayer.get_unique_id(), "Face", face_sprite.frame)
 
 
@@ -292,7 +294,7 @@ func _change_color_modulate(peer_id :int, color :Color) -> void:
 		NetworkManager.players[peer_id]["Color"] = color
 		NetworkManager._sync_player_info.rpc(NetworkManager.players)
 	else:
-		_request_change_character.rpc_id(1, peer_id, color)
+		_request_change_color_modulate.rpc_id(1, peer_id, color)
 
 @rpc("any_peer", "reliable")
 func _request_change_color_modulate(peer_id :int, color :Color) -> void:

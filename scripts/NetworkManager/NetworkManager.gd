@@ -35,7 +35,7 @@ func _create_server() -> Error:
 		"Name" : "Host", 
 		"Head" : 0, 
 		"Face" : 0, 
-		"Color" : Color(0, 0, 0), 
+		"Color" : Color(1, 1, 1), 
 		"Ready" : true, 
 	}
 	print("HOST!!")
@@ -59,7 +59,7 @@ func _client_connected(peer_id :int)  -> void:
 		"Name" : str(peer_id), 
 		"Head" : 0, 
 		"Face" : 0, 
-		"Color" : Color(0, 0, 0), 
+		"Color" : Color(1, 1, 1), 
 		"Ready" : false, 
 	}
 	

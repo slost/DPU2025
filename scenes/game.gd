@@ -127,12 +127,21 @@ func _move_player(player_id: int, direction: String, distanc: int) -> void:
 	else:
 		print("Error: Invalid direction '", direction, "'.")
 
+
+#Spawon player
 @rpc("authority", "reliable", "call_local")
 func _spawn_player(peer_id :int) -> void:
 	var player :Sprite2D = player_instance.instantiate() as Sprite2D
+	var plaeyr_face :int = NetworkManager.players[peer_id]["Face"]
 	player.name = str(peer_id)
+	player._cosmetic(NetworkManager.players[peer_id]["Head"], NetworkManager.players[peer_id]["Face"], NetworkManager.players[peer_id]["Color"])
 	
 	player_container.add_child(player, true)
+
+#Duplicate anim
+@rpc("authority", "reliable", "call_local")
+func _duplicate_anim(peer_id :int) -> void:
+	pass
 
 
 func _client_connected(peer_id :int) -> void:
