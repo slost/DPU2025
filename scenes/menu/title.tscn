@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/menu/title.gd" id="1_jkxbs"]
 [ext_resource type="Shader" path="res://assets/shaders/scroll.gdshader" id="2_5r50l"]
-[ext_resource type="Texture2D" uid="uid://cn35muhigx5b4" path="res://bg.png" id="3_lr5ua"]
+[ext_resource type="Texture2D" uid="uid://c75j5siodmae7" path="res://assets/sprites/ui/pattern.png" id="3_njbsr"]
 [ext_resource type="PackedScene" uid="uid://rcyrv0xwolqb" path="res://scenes/options/ui_sounds.tscn" id="4_pbife"]
 [ext_resource type="PackedScene" uid="uid://chwebnol1raip" path="res://scenes/options/options.tscn" id="5_ayxb0"]
 [ext_resource type="PackedScene" uid="uid://cmr2jcqhqdi3l" path="res://scenes/menu/tutorial.tscn" id="7_564ke"]
@@ -103,7 +103,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_lr5ua")
+texture = ExtResource("3_njbsr")
 stretch_mode = 1
 
 [node name="ui_sounds" parent="." instance=ExtResource("4_pbife")]

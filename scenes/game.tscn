@@ -1,29 +1,26 @@
-[gd_scene load_steps=20 format=4 uid="uid://bm8l2e131vk1r"]
+[gd_scene load_steps=18 format=3 uid="uid://bm8l2e131vk1r"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_rwqlk"]
-[ext_resource type="TileSet" uid="uid://cmwwta3ly4v5d" path="res://assets/sprites/tileset.tres" id="2_7sss4"]
 [ext_resource type="PackedScene" uid="uid://srrvpjo26pdu" path="res://test_scene_script/test_player.tscn" id="2_ehx6p"]
-[ext_resource type="Script" path="res://scenes/map.gd" id="3_27blv"]
-[ext_resource type="Script" path="res://scenes/enitities.gd" id="4_30nps"]
-[ext_resource type="Texture2D" uid="uid://cujd8fauuv55i" path="res://assets/sprites/snake-head.png" id="5_ul6ux"]
-[ext_resource type="Texture2D" uid="uid://ckfjrl4qmr0k2" path="res://assets/sprites/body-clean.png" id="6_x0rc4"]
+[ext_resource type="Texture2D" uid="uid://cyfw15i5k6jol" path="res://assets/sprites/ui/arrow_chose-export.png" id="3_ljges"]
+[ext_resource type="Texture2D" uid="uid://bqbl6ow8bq3w8" path="res://assets/sprites/ui/pause.png" id="5_j7r4b"]
 [ext_resource type="Texture2D" uid="uid://bip163op5ohde" path="res://assets/sprites/ui/arrow_chose.png" id="8_n554a"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_h5mup"]
-atlas = ExtResource("8_n554a")
-region = Rect2(0, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_oswpm"]
+atlas = ExtResource("3_ljges")
+region = Rect2(128, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_mjarv"]
-atlas = ExtResource("8_n554a")
-region = Rect2(32, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_7vycs"]
+atlas = ExtResource("3_ljges")
+region = Rect2(160, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_nqrrf"]
-atlas = ExtResource("8_n554a")
-region = Rect2(0, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_5vy8x"]
+atlas = ExtResource("3_ljges")
+region = Rect2(64, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6vqy4"]
-atlas = ExtResource("8_n554a")
-region = Rect2(32, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_jl5ub"]
+atlas = ExtResource("3_ljges")
+region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h7swh"]
 atlas = ExtResource("8_n554a")
@@ -33,30 +30,30 @@ region = Rect2(0, 0, 32, 32)
 atlas = ExtResource("8_n554a")
 region = Rect2(32, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_mvw7s"]
-atlas = ExtResource("8_n554a")
+[sub_resource type="AtlasTexture" id="AtlasTexture_lybn6"]
+atlas = ExtResource("5_j7r4b")
 region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_a4l5c"]
-atlas = ExtResource("8_n554a")
+[sub_resource type="AtlasTexture" id="AtlasTexture_41unn"]
+atlas = ExtResource("5_j7r4b")
 region = Rect2(32, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_puyue"]
-atlas = ExtResource("8_n554a")
-region = Rect2(0, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_0vmbo"]
+atlas = ExtResource("3_ljges")
+region = Rect2(192, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_m0baf"]
-atlas = ExtResource("8_n554a")
-region = Rect2(32, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_6upwm"]
+atlas = ExtResource("3_ljges")
+region = Rect2(224, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_re5d1"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_h5mup")
+"texture": SubResource("AtlasTexture_oswpm")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_mjarv")
+"texture": SubResource("AtlasTexture_7vycs")
 }],
 "loop": true,
 "name": &"down",
@@ -64,10 +61,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_nqrrf")
+"texture": SubResource("AtlasTexture_5vy8x")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_6vqy4")
+"texture": SubResource("AtlasTexture_jl5ub")
 }],
 "loop": true,
 "name": &"left",
@@ -86,10 +83,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_mvw7s")
+"texture": SubResource("AtlasTexture_lybn6")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_a4l5c")
+"texture": SubResource("AtlasTexture_41unn")
 }],
 "loop": true,
 "name": &"stop",
@@ -97,21 +94,28 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_puyue")
+"texture": SubResource("AtlasTexture_0vmbo")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_m0baf")
+"texture": SubResource("AtlasTexture_6upwm")
 }],
 "loop": true,
 "name": &"up",
 "speed": 5.0
 }]
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("player_container")]
+[sub_resource type="LabelSettings" id="LabelSettings_jkbgi"]
+font_size = 30
+font_color = Color(0, 1, 1, 1)
+
+[node name="Game" type="Node2D" node_paths=PackedStringArray("anim_game_original", "time_text", "player_container", "_time")]
 script = ExtResource("1_rwqlk")
 speed_multiplier = 2.0
 player_instance = ExtResource("2_ehx6p")
+anim_game_original = NodePath("Duplicate_items/anim_game")
+time_text = NodePath("CanvasLayer/Control/Time_text")
 player_container = NodePath("Players_container")
+_time = NodePath("Timer")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
@@ -120,41 +124,45 @@ offset_right = 1315.0
 offset_bottom = 800.0
 color = Color(0, 0, 0, 0.329412)
 
-[node name="Map" type="TileMapLayer" parent="."]
-unique_name_in_owner = true
-tile_map_data = PackedByteArray("AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAABAAAAAAAEAAEAAQACAAAAAAADAAAAAQACAAAAAAAFAAAAAQACAAAAAAAEAAIAAQACAAAAAAA=")
-tile_set = ExtResource("2_7sss4")
-script = ExtResource("3_27blv")
-
-[node name="Enitities" type="TileMapLayer" parent="."]
-tile_set = ExtResource("2_7sss4")
-y_sort_origin = 1
-script = ExtResource("4_30nps")
-
-[node name="Head" type="Sprite2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(64, 64)
-texture = ExtResource("5_ul6ux")
-
-[node name="Body" type="Sprite2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(64, 192)
-texture = ExtResource("6_x0rc4")
-
 [node name="Players_container" type="Node2D" parent="."]
 
 [node name="Timer" type="Timer" parent="."]
 process_callback = 0
-wait_time = 3.0
-autostart = true
 
 [node name="Duplicate_items" type="Node2D" parent="."]
-
-[node name="anim_game" type="AnimatedSprite2D" parent="Duplicate_items"]
 visible = false
-scale = Vector2(1.5, 1.5)
+
+[node name="anim_game" type="AnimatedSprite2D" parent="Duplicate_items" groups=["players"]]
+visible = false
+scale = Vector2(0.3, 0.3)
 sprite_frames = SubResource("SpriteFrames_re5d1")
-animation = &"right"
-flip_h = true
+animation = &"stop"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchor_right = 1.007
+anchor_bottom = 0.099
+offset_right = -0.0640869
+offset_bottom = -0.152008
+
+[node name="Time_text" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "000"
+label_settings = SubResource("LabelSettings_jkbgi")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

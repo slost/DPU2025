@@ -4,23 +4,27 @@ extends Node2D
 
 #multiplayer //////////////////
 @export var player_instance :PackedScene
+@export var anim_game_original :AnimatedSprite2D
+
+@export var time_text :Label
 
 @export var player_container :Node2D
-
+@export var _time :Timer
 #//////////////////////////////
 
-@onready var map: TileMapLayer = $Map
-@onready var ents: TileMapLayer = $Enitities
 
-var tiks: int = 0
-var current_moves: int = 0
-var current_speed: float = 1
 
 
 var is_pause: bool = false
 
 #players info
 var players_info :Dictionary
+
+#time
+var time_level :int
+
+#input
+var can_input :bool
 
 func _ready() -> void:
 	await get_tree().physics_frame
@@ -30,12 +34,14 @@ func _ready() -> void:
 	NetworkManager.client_connected.connect(_client_connected)
 	NetworkManager.client_disconnected.connect(_client_disconnected)
 	NetworkManager.server_disconnected.connect(_server_disconnected)
+
 	
 	if multiplayer.is_server():
 		for player_id :int in NetworkManager.players.keys():
 			players_info[player_id] = {
 				"Name" : NetworkManager.players[player_id]["Name"], 
-				"Minion" : 4, "Direction" : "", "Position" : Vector2()
+				"Minion" : 4, "Direction" : "", "Position" : Vector2(), 
+				"Score" : 0, 
 			}
 			
 			#sync plaeyr info
@@ -43,14 +49,24 @@ func _ready() -> void:
 				_sync_player_info.rpc_id(player_id, players_info)
 			await get_tree().create_timer(0.1).timeout
 			_spawn_player.rpc(player_id)
+			_duplicate_anim.rpc(player_id)
 			
-	#draw_map()
+
+			
+		can_input = true
+		_sync_can_input.rpc(can_input)
+		#start time
+		_time.start()
+
+
 
 #Input
 func _input(event: InputEvent) -> void:
+	if !can_input: return
 	#Debuging
 	if event.is_action_pressed("ui_cancel"):
 		print(players_info)
+		print("main info :", NetworkManager.players)
 		print(player_container.get_node_or_null(str(multiplayer.get_unique_id())).position)
 	if event.is_action_pressed("left"):
 		_on_player_input_left(multiplayer.get_unique_id(), "left")
@@ -63,6 +79,10 @@ func _input(event: InputEvent) -> void:
 	elif event.is_action_pressed("stop"):
 		_on_player_input_stop(multiplayer.get_unique_id(), "stop")
 
+
+#pro
+func _physics_process(delta: float) -> void:
+	time_text.text = str(time_level)
 
 #Player inputing
 func _on_player_input_left(peer_id :int, direction :String) -> void:
@@ -95,15 +115,17 @@ func _player_movement(peer_id :int, direction :String) -> void:
 	if multiplayer.is_server():
 		if player_container.get_node_or_null(str(peer_id)):
 			players_info[peer_id]["Direction"] = direction
+			_anim_direction.rpc(peer_id, direction)
 			_sync_player_info.rpc(players_info)
 	else:
 		_request_player_movement.rpc_id(1, peer_id, direction)
 
 
-@rpc("any_peer", "reliable", "call_local")
+@rpc("any_peer", "reliable")
 func _request_player_movement(peer_id :int, direction :String) -> void:
 	if player_container.get_node_or_null(str(peer_id)):
 		players_info[peer_id]["Direction"] = direction
+		_anim_direction.rpc(peer_id, direction)
 		_sync_player_info.rpc(players_info)
 
 
@@ -128,6 +150,12 @@ func _move_player(player_id: int, direction: String, distanc: int) -> void:
 		print("Error: Invalid direction '", direction, "'.")
 
 
+#Animation direction
+@rpc("authority", "reliable", "call_local")
+func _anim_direction(peer_id :int, direction :String) -> void:
+	player_container.get_node_or_null(str(peer_id)).get_node_or_null(str(peer_id) + "_anim").play(str(direction))
+
+
 #Spawon player
 @rpc("authority", "reliable", "call_local")
 func _spawn_player(peer_id :int) -> void:
@@ -135,13 +163,18 @@ func _spawn_player(peer_id :int) -> void:
 	var plaeyr_face :int = NetworkManager.players[peer_id]["Face"]
 	player.name = str(peer_id)
 	player._cosmetic(NetworkManager.players[peer_id]["Head"], NetworkManager.players[peer_id]["Face"], NetworkManager.players[peer_id]["Color"])
-	
 	player_container.add_child(player, true)
 
 #Duplicate anim
 @rpc("authority", "reliable", "call_local")
 func _duplicate_anim(peer_id :int) -> void:
-	pass
+	var anim_dup :AnimatedSprite2D = anim_game_original.duplicate()
+	anim_dup.visible = true
+	anim_dup.name = str(peer_id) + "_anim"
+	anim_dup.position.x += 0.0
+	anim_dup.position.y += 10.0
+	if player_container.get_node_or_null(str(peer_id)):
+		player_container.get_node_or_null(str(peer_id)).add_child(anim_dup, true)
 
 
 func _client_connected(peer_id :int) -> void:
@@ -172,41 +205,29 @@ func _clean_node(peer_id) -> void:
 func _sync_player_info(new_info :Dictionary) -> void:
 	players_info = new_info
 
+#sync_tiem_level
+@rpc("authority", "reliable")
+func _sync_time_level(new_time :int) -> void:
+	time_level = new_time
 
-#func _process(delta: float) -> void:
-	#if is_pause:
-		#return
-#
-	#tiks += 1
-#
-	#if tiks >= tik_per_move():
-		#ents.move_bubble()
-		#current_moves += 1
-		#print("Moves:" + str(current_moves))
-		#tiks = 0
-		#
-#
-#
-#func draw_map() -> void:
-	#for x in range(map.get_size().x):
-		#for y in range(map.get_size().y):
-			#var coords = Vector2i(x, y)
-			#if (x + y) % 2 == 0:
-				#map.set_cell(coords, 0, Vector2(0, 0))  # Tile at (0, 0)
-			#else:
-				#map.set_cell(coords, 0, Vector2(1, 0))  # Tile at (0, 1)
-	#ents.set_starting_position(Refs.Position.Middle)
-#
-#func tik_per_move() -> int:
-	#var fps:int = 60
-	#return int(fps / current_speed)
+#sync_input
+@rpc("authority", "reliable")
+func _sync_can_input(can :bool) -> void:
+	can_input = can
+
 
 
 func _on_timer_timeout() -> void:
 	if !multiplayer.is_server(): return
-	for player_id :int in players_info.keys():
-		_move_player.rpc(player_id, players_info[player_id]["Direction"], 64)
-	for player_id :int in players_info.keys():
-		players_info[player_id]["Direction"] = "stop"
-		_sync_player_info.rpc(players_info)
+	time_level += 1
+	
+	if time_level >= 3:
+		for player_id :int in players_info.keys():
+			_move_player.rpc(player_id, players_info[player_id]["Direction"], 64)
+		for player_id :int in players_info.keys():
+			players_info[player_id]["Direction"] = "stop"
+			_anim_direction.rpc(player_id, "stop")
+			_sync_player_info.rpc(players_info)
+		time_level = 0
+	_sync_time_level.rpc(time_level)
 	

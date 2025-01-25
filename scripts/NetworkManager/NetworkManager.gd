@@ -37,6 +37,7 @@ func _create_server() -> Error:
 		"Face" : 0, 
 		"Color" : Color(1, 1, 1), 
 		"Ready" : true, 
+		"Hitting" : false, 
 	}
 	print("HOST!!")
 	return OK
@@ -61,6 +62,7 @@ func _client_connected(peer_id :int)  -> void:
 		"Face" : 0, 
 		"Color" : Color(1, 1, 1), 
 		"Ready" : false, 
+		"Hitting" : false, 
 	}
 	
 	#sync_player_info
