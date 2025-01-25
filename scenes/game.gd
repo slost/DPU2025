@@ -40,8 +40,8 @@ func _ready() -> void:
 		for player_id :int in NetworkManager.players.keys():
 			players_info[player_id] = {
 				"Name" : NetworkManager.players[player_id]["Name"], 
-				"Minion" : 4, "Direction" : "", "Position" : Vector2(), 
-				"Score" : 0, 
+				"Direction" : "", "Position" : Vector2(), 
+				"Score" : 0, "Hitting" : false, 
 			}
 			
 			#sync plaeyr info
@@ -66,8 +66,6 @@ func _input(event: InputEvent) -> void:
 	#Debuging
 	if event.is_action_pressed("ui_cancel"):
 		print(players_info)
-		print("main info :", NetworkManager.players)
-		print(player_container.get_node_or_null(str(multiplayer.get_unique_id())).position)
 	if event.is_action_pressed("left"):
 		_on_player_input_left(multiplayer.get_unique_id(), "left")
 	elif event.is_action_pressed("right"):
@@ -144,10 +142,21 @@ func _move_player(player_id: int, direction: String, distanc: int) -> void:
 		var player_node = player_container.get_node_or_null(str(player_id))
 		if player_node:
 			player_node.position += direction_all[direction]
+			_checking_hitting()
 		else:
 			print("Error: Player with ID ", player_id, " not found.")
 	else:
 		print("Error: Invalid direction '", direction, "'.")
+
+func _checking_hitting() -> void:
+	if !multiplayer.is_server(): return
+	var hitting :Array
+	var same_pos :Array
+	for player_id :int in players_info.keys():
+		if players_info[player_id]["Hitting"] != false:
+			hitting.append(player_id)
+	print("Hitting :", hitting)
+			
 
 
 #Animation direction
@@ -156,7 +165,7 @@ func _anim_direction(peer_id :int, direction :String) -> void:
 	player_container.get_node_or_null(str(peer_id)).get_node_or_null(str(peer_id) + "_anim").play(str(direction))
 
 
-#Spawon player
+#Spawn player
 @rpc("authority", "reliable", "call_local")
 func _spawn_player(peer_id :int) -> void:
 	var player :Sprite2D = player_instance.instantiate() as Sprite2D
@@ -231,3 +240,9 @@ func _on_timer_timeout() -> void:
 		time_level = 0
 	_sync_time_level.rpc(time_level)
 	
+
+@rpc("authority", "reliable", "call_local")
+func _take_damage(peer_id :int) -> void:
+	var player_hitting :Array
+	player_hitting.append(peer_id)
+	print(player_hitting)
