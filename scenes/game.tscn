@@ -44,13 +44,11 @@ texture = ExtResource("6_x0rc4")
 
 [node name="Players_container" type="Node2D" parent="."]
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://test_scene_script/test_player.tscn")
-spawn_path = NodePath("../Players_container")
-
 [node name="Timer" type="Timer" parent="."]
 process_callback = 0
 wait_time = 3.0
 autostart = true
+
+[node name="Duplicate_items" type="Node2D" parent="."]
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

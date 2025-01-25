@@ -35,7 +35,7 @@ func _ready() -> void:
 		for player_id :int in NetworkManager.players.keys():
 			players_info[player_id] = {
 				"Name" : NetworkManager.players[player_id]["Name"], 
-				"Minion" : 4, "Direction" : "", 
+				"Minion" : 4, "Direction" : "", "Position" : Vector2()
 			}
 			
 			#sync plaeyr info
@@ -50,6 +50,7 @@ func _input(event: InputEvent) -> void:
 	#Debuging
 	if event.is_action_pressed("ui_cancel"):
 		print(players_info)
+		print(player_container.get_node_or_null(str(multiplayer.get_unique_id())).position)
 	if event.is_action_pressed("left"):
 		_on_player_input_left(multiplayer.get_unique_id(), "left")
 	elif event.is_action_pressed("right"):

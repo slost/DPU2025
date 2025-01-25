@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c48vrmrjdhemd"
-path="res://.godot/imported/setting.png-99a9fab9d0c51390ffb223a984fc4720.ctex"
+uid="uid://bejhebb85t725"
+path="res://.godot/imported/arrow_idle.png-c12b8970e766f8675849823c69887df8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/ui/setting.png"
-dest_files=["res://.godot/imported/setting.png-99a9fab9d0c51390ffb223a984fc4720.ctex"]
+source_file="res://assets/sprites/ui/arrow_idle.png"
+dest_files=["res://.godot/imported/arrow_idle.png-c12b8970e766f8675849823c69887df8.ctex"]
 
 [params]
 

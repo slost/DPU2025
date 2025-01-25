@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dpyqweqtlpsrb"]
+[gd_scene load_steps=18 format=3 uid="uid://dpyqweqtlpsrb"]
 
 [ext_resource type="Script" path="res://scripts/menu/title.gd" id="1_jkxbs"]
 [ext_resource type="Shader" path="res://assets/shaders/scroll.gdshader" id="2_5r50l"]
@@ -7,6 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://chwebnol1raip" path="res://scenes/options/options.tscn" id="5_ayxb0"]
 [ext_resource type="PackedScene" uid="uid://cmr2jcqhqdi3l" path="res://scenes/menu/tutorial.tscn" id="7_564ke"]
 [ext_resource type="Texture2D" uid="uid://cswtvwr5ar6k2" path="res://assets/mock_logo.png" id="7_tydca"]
+[ext_resource type="Texture2D" uid="uid://dml0rdker7phy" path="res://assets/sprites/characters/head.png" id="8_hcsac"]
+[ext_resource type="Texture2D" uid="uid://bejhebb85t725" path="res://assets/sprites/ui/arrow_idle.png" id="8_kxq8m"]
+[ext_resource type="Texture2D" uid="uid://blj54sy48suwn" path="res://assets/sprites/ui/arrow_press.png" id="9_1uokn"]
+[ext_resource type="Texture2D" uid="uid://ba21joch0b1u0" path="res://assets/sprites/characters/face.png" id="9_o465i"]
+[ext_resource type="Texture2D" uid="uid://m23pf4m4a4mf" path="res://assets/sprites/characters/bubble_idle.png" id="10_nm7c0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3tmtn"]
 shader = ExtResource("2_5r50l")
@@ -64,7 +69,7 @@ _data = {
 "change_color_to_title": SubResource("Animation_pk2sq")
 }
 
-[node name="Title" type="Control" node_paths=PackedStringArray("title", "lobby", "vbox_online", "bg", "title_lobby_anim", "get_ip_adress", "player_name", "change_name", "players_list", "b_play", "b_ready")]
+[node name="Title" type="Control" node_paths=PackedStringArray("title", "lobby", "vbox_online", "bg", "title_lobby_anim", "get_ip_adress", "player_name", "change_name", "players_list", "b_play", "b_ready", "head_sprite", "face_sprite", "base_overview", "face_overview", "head_overview", "color_picker")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -83,8 +88,15 @@ change_name = NodePath("Lobby/change_name/change_name")
 players_list = NodePath("Lobby/PlayerList/HBoxContainer/players_list")
 b_play = NodePath("Lobby/B_play")
 b_ready = NodePath("Lobby/B_ready")
+head_sprite = NodePath("Lobby/Create_character/HBoxContainer/VBoxContainer2/Head_texture/head_sprite")
+face_sprite = NodePath("Lobby/Create_character/HBoxContainer/VBoxContainer2/Face_texture/face_sprite")
+base_overview = NodePath("Lobby/Create_character/HBoxContainer/VBoxContainer2/overview/base_overview")
+face_overview = NodePath("Lobby/Create_character/HBoxContainer/VBoxContainer2/overview/face_overview")
+head_overview = NodePath("Lobby/Create_character/HBoxContainer/VBoxContainer2/overview/head_overview")
+color_picker = NodePath("Lobby/Create_character/color_picker")
 
 [node name="Pattern" type="TextureRect" parent="."]
+visible = false
 material = SubResource("ShaderMaterial_3tmtn")
 layout_mode = 1
 anchors_preset = 15
@@ -198,10 +210,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -160.0
-offset_top = -132.0
-offset_right = 160.0
-offset_bottom = 252.0
+offset_left = -96.0
+offset_top = -196.0
+offset_right = 224.0
+offset_bottom = 188.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -212,10 +224,20 @@ size_flags_horizontal = 3
 [node name="B_left_head" type="TextureButton" parent="Lobby/Create_character/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+texture_normal = ExtResource("8_kxq8m")
+texture_pressed = ExtResource("9_1uokn")
+ignore_texture_size = true
+stretch_mode = 0
+flip_h = true
 
 [node name="B_left_face" type="TextureButton" parent="Lobby/Create_character/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+texture_normal = ExtResource("8_kxq8m")
+texture_pressed = ExtResource("9_1uokn")
+ignore_texture_size = true
+stretch_mode = 0
+flip_h = true
 
 [node name="TextureButton3" type="TextureButton" parent="Lobby/Create_character/HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -224,18 +246,59 @@ size_flags_vertical = 3
 [node name="VBoxContainer2" type="VBoxContainer" parent="Lobby/Create_character/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = -50
 
 [node name="Head_texture" type="TextureRect" parent="Lobby/Create_character/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 3
 
+[node name="head_sprite" type="Sprite2D" parent="Lobby/Create_character/HBoxContainer/VBoxContainer2/Head_texture"]
+position = Vector2(48, 64)
+scale = Vector2(4, 4)
+texture = ExtResource("8_hcsac")
+hframes = 3
+frame = 2
+region_enabled = true
+region_rect = Rect2(0, 0, 96, 32)
+
 [node name="Face_texture" type="TextureRect" parent="Lobby/Create_character/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Color_texture" type="TextureRect" parent="Lobby/Create_character/HBoxContainer/VBoxContainer2"]
+[node name="face_sprite" type="Sprite2D" parent="Lobby/Create_character/HBoxContainer/VBoxContainer2/Face_texture"]
+position = Vector2(48, 64)
+scale = Vector2(4, 4)
+texture = ExtResource("9_o465i")
+hframes = 3
+region_enabled = true
+region_rect = Rect2(0, 0, 96, 32)
+
+[node name="overview" type="TextureRect" parent="Lobby/Create_character/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="base_overview" type="Sprite2D" parent="Lobby/Create_character/HBoxContainer/VBoxContainer2/overview"]
+position = Vector2(48, 64)
+scale = Vector2(4, 4)
+texture = ExtResource("10_nm7c0")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="face_overview" type="Sprite2D" parent="Lobby/Create_character/HBoxContainer/VBoxContainer2/overview"]
+position = Vector2(48, 64)
+scale = Vector2(4, 4)
+texture = ExtResource("9_o465i")
+hframes = 3
+region_enabled = true
+region_rect = Rect2(0, 0, 96, 32)
+
+[node name="head_overview" type="Sprite2D" parent="Lobby/Create_character/HBoxContainer/VBoxContainer2/overview"]
+position = Vector2(48, 64)
+scale = Vector2(4, 4)
+texture = ExtResource("8_hcsac")
+hframes = 3
+region_enabled = true
+region_rect = Rect2(0, 0, 96, 32)
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="Lobby/Create_character/HBoxContainer"]
 layout_mode = 2
@@ -244,12 +307,20 @@ size_flags_horizontal = 3
 [node name="B_right_head" type="TextureButton" parent="Lobby/Create_character/HBoxContainer/VBoxContainer3"]
 layout_mode = 2
 size_flags_vertical = 3
+texture_normal = ExtResource("8_kxq8m")
+texture_pressed = ExtResource("9_1uokn")
+ignore_texture_size = true
+stretch_mode = 0
 
-[node name="B_right_head2" type="TextureButton" parent="Lobby/Create_character/HBoxContainer/VBoxContainer3"]
+[node name="B_right_face" type="TextureButton" parent="Lobby/Create_character/HBoxContainer/VBoxContainer3"]
 layout_mode = 2
 size_flags_vertical = 3
+texture_normal = ExtResource("8_kxq8m")
+texture_pressed = ExtResource("9_1uokn")
+ignore_texture_size = true
+stretch_mode = 0
 
-[node name="TextureButton3" type="TextureButton" parent="Lobby/Create_character/HBoxContainer/VBoxContainer3"]
+[node name="B_pick_color" type="TextureButton" parent="Lobby/Create_character/HBoxContainer/VBoxContainer3"]
 layout_mode = 2
 size_flags_vertical = 3
 
@@ -258,13 +329,18 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = 104.0
-offset_top = 256.0
-offset_right = 368.0
-offset_bottom = 832.0
+offset_left = -8.0
+offset_top = 472.0
+offset_right = 264.0
+offset_bottom = 744.0
 grow_horizontal = 2
 scale = Vector2(0.5, 0.5)
 picker_shape = 1
+sampler_visible = false
+color_modes_visible = false
+sliders_visible = false
+hex_visible = false
+presets_visible = false
 
 [node name="change_name" type="VBoxContainer" parent="Lobby"]
 layout_mode = 1
@@ -305,18 +381,18 @@ bbcode_enabled = true
 
 [node name="B_play" type="Button" parent="Lobby"]
 layout_mode = 0
-offset_left = 896.0
-offset_top = 512.0
-offset_right = 1089.0
-offset_bottom = 607.0
+offset_left = 1000.0
+offset_top = 16.0
+offset_right = 1128.0
+offset_bottom = 80.0
 text = "Play"
 
 [node name="B_ready" type="Button" parent="Lobby"]
 layout_mode = 0
-offset_left = 896.0
-offset_top = 512.0
-offset_right = 1088.0
-offset_bottom = 607.0
+offset_left = 1000.0
+offset_top = 16.0
+offset_right = 1128.0
+offset_bottom = 80.0
 text = "Ready"
 
 [connection signal="pressed" from="Title/MarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
@@ -324,6 +400,11 @@ text = "Ready"
 [connection signal="pressed" from="Title/MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="Title/vbox_online/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="Title/vbox_online/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="Lobby/Create_character/HBoxContainer/VBoxContainer/B_left_head" to="." method="_on_b_left_head_pressed"]
+[connection signal="pressed" from="Lobby/Create_character/HBoxContainer/VBoxContainer/B_left_face" to="." method="_on_b_left_face_pressed"]
+[connection signal="pressed" from="Lobby/Create_character/HBoxContainer/VBoxContainer3/B_right_head" to="." method="_on_b_right_head_pressed"]
+[connection signal="pressed" from="Lobby/Create_character/HBoxContainer/VBoxContainer3/B_right_face" to="." method="_on_b_right_face_pressed"]
+[connection signal="color_changed" from="Lobby/Create_character/color_picker" to="." method="_on_color_picker_color_changed"]
 [connection signal="text_changed" from="Lobby/change_name/change_name" to="." method="_on_change_name_text_changed"]
 [connection signal="pressed" from="Lobby/B_play" to="." method="_on_b_play_pressed"]
 [connection signal="pressed" from="Lobby/B_ready" to="." method="_on_b_ready_pressed"]
