@@ -106,15 +106,24 @@ func _request_player_movement(peer_id :int, direction :String) -> void:
 
 
 @rpc("authority", "reliable", "call_local")
-func _move_player(player_id :int, direction :String, distanc :int) -> void:
-	var direction_all :Dictionary = {
-		"left" : Vector2(-distanc, 0), 
-		"right" : Vector2(distanc, 0), 
-		"up" : Vector2(0, -distanc) , 
-		"down" : Vector2(0, distanc), 
-		"stop" : Vector2(0, 0), 
-		}
-	player_container.get_node_or_null(str(player_id)).position += direction_all[direction]
+func _move_player(player_id: int, direction: String, distanc: int) -> void:
+	var direction_all: Dictionary = {
+		"left": Vector2(-distanc, 0), 
+		"right": Vector2(distanc, 0), 
+		"up": Vector2(0, -distanc), 
+		"down": Vector2(0, distanc), 
+		"stop": Vector2(0, 0), 
+	}
+
+	# Check if the direction is valid
+	if direction in direction_all:
+		var player_node = player_container.get_node_or_null(str(player_id))
+		if player_node:
+			player_node.position += direction_all[direction]
+		else:
+			print("Error: Player with ID ", player_id, " not found.")
+	else:
+		print("Error: Invalid direction '", direction, "'.")
 
 func _spawn_player(peer_id :int) -> void:
 	var player :Sprite2D = player_instance.instantiate() as Sprite2D
@@ -185,4 +194,7 @@ func _on_timer_timeout() -> void:
 	if !multiplayer.is_server(): return
 	for player_id :int in players_info.keys():
 		_move_player.rpc(player_id, players_info[player_id]["Direction"], 64)
+	for player_id :int in players_info.keys():
+		players_info[player_id]["Direction"] = "stop"
+		_sync_player_info.rpc(players_info)
 	

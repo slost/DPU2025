@@ -12,5 +12,6 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	if is_multiplayer_authority():
-		position += Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down") * 5
+		#position += Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down") * 5
+		pass
 	

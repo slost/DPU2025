@@ -1,13 +1,14 @@
 [gd_scene load_steps=4 format=3 uid="uid://srrvpjo26pdu"]
 
-[ext_resource type="Texture2D" uid="uid://cgtnbneh2bl17" path="res://icon.svg" id="1_qowck"]
+[ext_resource type="Texture2D" uid="uid://36boaeh2akm0" path="res://fmod/DPU2025/Assets/Character/bubble_idle.png" id="1_r1hty"]
 [ext_resource type="Script" path="res://test_scene_script/test_player.gd" id="2_72r6y"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ym1c5"]
 
 [node name="test_player" type="Sprite2D"]
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("1_qowck")
+self_modulate = Color(1, 0, 0, 1)
+scale = Vector2(3, 3)
+texture = ExtResource("1_r1hty")
 script = ExtResource("2_72r6y")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
