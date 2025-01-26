@@ -1,8 +1,19 @@
-[gd_scene format=3 uid="uid://bdda0jdasrwk4"]
+[gd_scene load_steps=5 format=3 uid="uid://bdda0jdasrwk4"]
 
-[node name="MusicPlayer" type="Node"]
+[ext_resource type="Script" path="res://scripts/music_player.gd" id="1_uo4sw"]
+[ext_resource type="AudioStream" uid="uid://cvdowll0lf5yb" path="res://assets/audio/sfx/click.ogg" id="1_ws4dl"]
+[ext_resource type="AudioStream" uid="uid://d05jx1fpoqrf4" path="res://assets/audio/bgm/BubbleRoyale_music.ogg" id="2_a4mwb"]
+[ext_resource type="AudioStream" uid="uid://epk65dkw1eu1" path="res://assets/audio/sfx/ahh.mp3" id="2_pbh0a"]
+
+[node name="Music" type="Node"]
+script = ExtResource("1_uo4sw")
 
 [node name="BGM" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_a4mwb")
 autoplay = true
 
 [node name="Click" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("1_ws4dl")
+
+[node name="GameOver" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_pbh0a")
