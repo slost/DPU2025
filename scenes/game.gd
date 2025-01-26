@@ -302,6 +302,7 @@ func _request_add_score() -> void:
 	_check_limit_soap.rpc()
 	
 
+
 @rpc("authority", "reliable", "call_local")
 func _end_game() -> void:
 	if end_game:
