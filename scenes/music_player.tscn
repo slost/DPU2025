@@ -1,8 +1,13 @@
-[gd_scene format=3 uid="uid://bdda0jdasrwk4"]
+[gd_scene load_steps=3 format=3 uid="uid://dpbdtunibi0mk"]
+
+[ext_resource type="AudioStream" uid="uid://d05jx1fpoqrf4" path="res://assets/audio/bgm/BubbleRoyale_music.ogg" id="1_dcmmq"]
+[ext_resource type="AudioStream" uid="uid://dqqdkj4xl4cij" path="res://assets/audio/ui/onclick.wav" id="2_fgk4y"]
 
 [node name="MusicPlayer" type="Node"]
 
 [node name="BGM" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("1_dcmmq")
 autoplay = true
 
 [node name="Click" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_fgk4y")
