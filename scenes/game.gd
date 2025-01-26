@@ -177,10 +177,11 @@ func _update_own_info() -> void:
 	player_info_text.text = ""
 	if !players_info.is_empty() :player_info_text.text = "Name :%s | Score :%d" % [players_info[multiplayer.get_unique_id()]["Name"], players_info[multiplayer.get_unique_id()]["Score"]]
 
+
 @rpc("authority", "reliable", "call_local")
 func _check_limit_soap() -> void:
 	for player_id :int in players_info.keys():
-		if players_info[player_id]["Limit"] >= 5:
+		if players_info[player_id]["Limit"] >= 30:
 			print(player_id, "END GAME")
 			end_game = true
 			_sync_end_game.rpc(end_game)
@@ -198,7 +199,8 @@ func _spawn_player(peer_id :int) -> void:
 	var player :Sprite2D = player_instance.instantiate() as Sprite2D
 	var plaeyr_face :int = NetworkManager.players[peer_id]["Face"]
 	player.name = str(peer_id)
-	player.position = Vector2(80, 584-140)
+	#player.position = Vector2(80, 584-140)
+	player.global_position = Vector2(640, 240)
 	player.scale = Vector2(5, 5)
 	player._cosmetic(NetworkManager.players[peer_id]["Head"], NetworkManager.players[peer_id]["Face"], NetworkManager.players[peer_id]["Color"])
 	player_container.add_child(player, true)
@@ -264,7 +266,9 @@ func _on_timer_timeout() -> void:
 	if !multiplayer.is_server(): return
 	time_level += 1
 	
-	if time_level >= 2:
+	if time_level >= 1:
+		_kill_player.rpc()
+		_check_plaers.rpc()
 		for player_id :int in players_info.keys():
 			_move_player.rpc(player_id, players_info[player_id]["Direction"], 64)
 		for player_id :int in players_info.keys():
@@ -274,12 +278,25 @@ func _on_timer_timeout() -> void:
 		time_level = 0
 	_sync_time_level.rpc(time_level)
 
+
 @rpc("authority", "reliable", "call_local")
-func _kill_player(peer_id :int) -> void:
-	_clean_node.rpc(peer_id)
-	_sync_can_input.rpc_id(peer_id, false)
+func _kill_player() -> void:
+	var minimum_score :int
+	var loser :int
+	for player_id :int in players_info.keys():
+		minimum_score = players_info[player_id]["Score"]
+		if minimum_score < players_info[player_id]["Score"]:
+			minimum_score = players_info[player_id]["Score"]
+			loser = players_info[player_id]
+	_clean_node.rpc(loser)
+	#_sync_can_input.rpc_id(loser, false)
 	
 
+@rpc("authority", "reliable", "call_local")
+func _check_plaers() -> void:
+	if players_info.size() == 1:
+		end_game = true
+		_sync_end_game.rpc(true)
 
 func _on_b_soap_pressed() -> void:
 	if multiplayer.is_server():

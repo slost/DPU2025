@@ -125,9 +125,7 @@ player_info_text = NodePath("CanvasLayer/Control/player_info/player_info_text")
 end_game_node = NodePath("CanvasLayer/End_game")
 player_list_end_game = NodePath("CanvasLayer/End_game/player_list_end_game")
 
-[node name="CanvasLayer2" type="CanvasLayer" parent="."]
-
-[node name="World" parent="CanvasLayer2" instance=ExtResource("3_h6jor")]
+[node name="World" parent="." instance=ExtResource("3_h6jor")]
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
@@ -155,6 +153,9 @@ visible = false
 process_callback = 0
 
 [node name="Players_container" type="Node2D" parent="."]
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(640, 240)
 
 [node name="Duplicate_items" type="Node2D" parent="."]
 visible = false

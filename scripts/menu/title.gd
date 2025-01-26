@@ -253,7 +253,7 @@ func _request_change_character(peer_id :int, part :String, frame :int) -> void:
 #Button change character frame
 func _on_b_left_head_pressed() -> void:
 	if head_sprite.frame == 0 :
-		head_sprite.frame = 2 
+		head_sprite.frame = 7 
 	else:
 		head_sprite.frame -= 1 
 	head_overview.frame = head_sprite.frame
@@ -261,14 +261,14 @@ func _on_b_left_head_pressed() -> void:
 
 func _on_b_left_face_pressed() -> void:
 	if face_sprite.frame == 0 :
-		face_sprite.frame = 2 
+		face_sprite.frame = 10
 	else:
 		face_sprite.frame -= 1 
 	face_overview.frame = face_sprite.frame
 	_change_chracter(multiplayer.get_unique_id(), "Face", face_sprite.frame)
 
 func _on_b_right_head_pressed() -> void:
-	if head_sprite.frame == 2 :
+	if head_sprite.frame == 7 :
 		head_sprite.frame = 0 
 	else:
 		head_sprite.frame += 1 
@@ -276,7 +276,7 @@ func _on_b_right_head_pressed() -> void:
 	_change_chracter(multiplayer.get_unique_id(), "Head", head_sprite.frame)
 
 func _on_b_right_face_pressed() -> void:
-	if face_sprite.frame == 2 :
+	if face_sprite.frame == 10 :
 		face_sprite.frame = 0
 	else:
 		face_sprite.frame += 1 
