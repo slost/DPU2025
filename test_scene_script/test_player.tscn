@@ -2,8 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://36boaeh2akm0" path="res://fmod/DPU2025/Assets/Character/bubble_idle.png" id="1_r1hty"]
 [ext_resource type="Script" path="res://test_scene_script/test_player.gd" id="2_72r6y"]
-[ext_resource type="Texture2D" uid="uid://dml0rdker7phy" path="res://assets/sprites/characters/head.png" id="3_5irm0"]
-[ext_resource type="Texture2D" uid="uid://ba21joch0b1u0" path="res://assets/sprites/characters/face.png" id="4_g7rd4"]
+[ext_resource type="Texture2D" uid="uid://bbxr4wpjwdogj" path="res://assets/sprites/characters/bubble_head-Sheet2.png" id="3_p5vyw"]
+[ext_resource type="Texture2D" uid="uid://c4pntvw0k444w" path="res://assets/sprites/characters/bubble_face-Sheet.png" id="4_r6oq8"]
 [ext_resource type="Script" path="res://test_scene_script/area_player.gd" id="5_e5ne1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6fyko"]
@@ -18,16 +18,13 @@ head_sprite = NodePath("head_sprite")
 area_player = NodePath("area_player")
 
 [node name="head_sprite" type="Sprite2D" parent="."]
-texture = ExtResource("3_5irm0")
-hframes = 3
-frame = 2
-region_enabled = true
+texture = ExtResource("3_p5vyw")
+hframes = 8
 region_rect = Rect2(0, 0, 96, 32)
 
 [node name="face_sprite" type="Sprite2D" parent="."]
-texture = ExtResource("4_g7rd4")
-hframes = 3
-region_enabled = true
+texture = ExtResource("4_r6oq8")
+hframes = 11
 region_rect = Rect2(0, 0, 96, 32)
 
 [node name="area_player" type="Area2D" parent="."]
@@ -37,5 +34,3 @@ script = ExtResource("5_e5ne1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="area_player"]
 shape = SubResource("CircleShape2D_6fyko")
-
-[connection signal="area_entered" from="area_player" to="area_player" method="_on_area_entered"]

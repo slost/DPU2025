@@ -1,15 +1,14 @@
-[gd_scene load_steps=23 format=3 uid="uid://bm8l2e131vk1r"]
+[gd_scene load_steps=22 format=3 uid="uid://bm8l2e131vk1r"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_rwqlk"]
-[ext_resource type="TileSet" uid="uid://c0pp64e02whqb" path="res://assets/sprites/tileset.tres" id="2_7sss4"]
 [ext_resource type="PackedScene" uid="uid://srrvpjo26pdu" path="res://test_scene_script/test_player.tscn" id="2_ehx6p"]
-[ext_resource type="Script" path="res://scenes/map.gd" id="3_27blv"]
+[ext_resource type="PackedScene" uid="uid://dh2046og5eqqw" path="res://scenes/world.tscn" id="3_h6jor"]
 [ext_resource type="Texture2D" uid="uid://cyfw15i5k6jol" path="res://assets/sprites/ui/arrow_chose-export.png" id="3_ljges"]
-[ext_resource type="Script" path="res://scenes/enitities.gd" id="4_30nps"]
 [ext_resource type="Texture2D" uid="uid://bqbl6ow8bq3w8" path="res://assets/sprites/ui/pause.png" id="5_j7r4b"]
 [ext_resource type="Texture2D" uid="uid://cujd8fauuv55i" path="res://assets/sprites/snake-head.png" id="5_ul6ux"]
 [ext_resource type="Texture2D" uid="uid://ckfjrl4qmr0k2" path="res://assets/sprites/body-clean.png" id="6_x0rc4"]
 [ext_resource type="Texture2D" uid="uid://bip163op5ohde" path="res://assets/sprites/ui/arrow_chose.png" id="8_n554a"]
+[ext_resource type="Texture2D" uid="uid://cwmfst0lcsanq" path="res://assets/sprites/ui/soap.png" id="11_dmg6j"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oswpm"]
 atlas = ExtResource("3_ljges")
@@ -113,7 +112,7 @@ animations = [{
 font_size = 30
 font_color = Color(0, 1, 1, 1)
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("anim_game_original", "time_text", "player_container", "_time")]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("anim_game_original", "time_text", "player_container", "_time", "player_list_score", "player_info_text", "end_game_node", "player_list_end_game")]
 script = ExtResource("1_rwqlk")
 speed_multiplier = 2.0
 player_instance = ExtResource("2_ehx6p")
@@ -121,6 +120,14 @@ anim_game_original = NodePath("Duplicate_items/anim_game")
 time_text = NodePath("CanvasLayer/Control/Time_text")
 player_container = NodePath("Players_container")
 _time = NodePath("Timer")
+player_list_score = NodePath("CanvasLayer/Control/player_list")
+player_info_text = NodePath("CanvasLayer/Control/player_info/player_info_text")
+end_game_node = NodePath("CanvasLayer/End_game")
+player_list_end_game = NodePath("CanvasLayer/End_game/player_list_end_game")
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="World" parent="CanvasLayer2" instance=ExtResource("3_h6jor")]
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
@@ -128,21 +135,6 @@ z_index = -1
 offset_right = 1315.0
 offset_bottom = 800.0
 color = Color(0, 0, 0, 0.329412)
-
-[node name="Players_container" type="Node2D" parent="."]
-
-[node name="Map" type="TileMapLayer" parent="."]
-unique_name_in_owner = true
-visible = false
-tile_set = ExtResource("2_7sss4")
-script = ExtResource("3_27blv")
-
-[node name="Enitities" type="TileMapLayer" parent="."]
-visible = false
-tile_map_data = PackedByteArray(0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0)
-tile_set = ExtResource("2_7sss4")
-y_sort_origin = 1
-script = ExtResource("4_30nps")
 
 [node name="Head" type="Sprite2D" parent="."]
 unique_name_in_owner = true
@@ -161,6 +153,8 @@ visible = false
 
 [node name="Timer" type="Timer" parent="."]
 process_callback = 0
+
+[node name="Players_container" type="Node2D" parent="."]
 
 [node name="Duplicate_items" type="Node2D" parent="."]
 visible = false
@@ -198,4 +192,83 @@ label_settings = SubResource("LabelSettings_jkbgi")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="player_list" type="RichTextLabel" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -328.0
+offset_top = 32.0
+offset_right = -31.9999
+offset_bottom = 544.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="b_soap" type="TextureButton" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_left = 416.0
+offset_top = 240.0
+offset_right = 448.0
+offset_bottom = 272.0
+scale = Vector2(7, 7)
+texture_normal = ExtResource("11_dmg6j")
+
+[node name="player_panel_profile" type="Panel" parent="CanvasLayer/Control"]
+layout_mode = 2
+offset_top = 512.0
+offset_right = 1152.0
+offset_bottom = 648.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="player_info" type="HBoxContainer" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_top = 512.0
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="player_info_text" type="RichTextLabel" parent="CanvasLayer/Control/player_info"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="bubles" type="Node2D" parent="CanvasLayer"]
+
+[node name="End_game" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="CanvasLayer/End_game"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="player_list_end_game" type="RichTextLabel" parent="CanvasLayer/End_game"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = -260.0
+offset_right = 192.0
+offset_bottom = 260.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Limit_slppery" type="Timer" parent="."]
+wait_time = 0.1
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="pressed" from="CanvasLayer/Control/b_soap" to="." method="_on_b_soap_pressed"]
+[connection signal="timeout" from="Limit_slppery" to="." method="_on_limit_slppery_timeout"]

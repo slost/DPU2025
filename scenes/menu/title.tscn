@@ -7,11 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://chwebnol1raip" path="res://scenes/options/options.tscn" id="5_ayxb0"]
 [ext_resource type="PackedScene" uid="uid://cmr2jcqhqdi3l" path="res://scenes/menu/tutorial.tscn" id="7_564ke"]
 [ext_resource type="Texture2D" uid="uid://bm2pj5epoeigl" path="res://assets/sprites/ui/logo_draft-export.png" id="7_mn4j0"]
-[ext_resource type="Texture2D" uid="uid://dml0rdker7phy" path="res://assets/sprites/characters/head.png" id="8_hcsac"]
 [ext_resource type="Texture2D" uid="uid://bejhebb85t725" path="res://assets/sprites/ui/arrow_idle.png" id="8_kxq8m"]
 [ext_resource type="Texture2D" uid="uid://blj54sy48suwn" path="res://assets/sprites/ui/arrow_press.png" id="9_1uokn"]
-[ext_resource type="Texture2D" uid="uid://ba21joch0b1u0" path="res://assets/sprites/characters/face.png" id="9_o465i"]
+[ext_resource type="Texture2D" uid="uid://bbxr4wpjwdogj" path="res://assets/sprites/characters/bubble_head-Sheet2.png" id="10_g2y7a"]
 [ext_resource type="Texture2D" uid="uid://m23pf4m4a4mf" path="res://assets/sprites/characters/bubble_idle.png" id="10_nm7c0"]
+[ext_resource type="Texture2D" uid="uid://c4pntvw0k444w" path="res://assets/sprites/characters/bubble_face-Sheet.png" id="11_ncdsq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3tmtn"]
 shader = ExtResource("2_5r50l")
@@ -254,10 +254,8 @@ size_flags_vertical = 3
 [node name="head_sprite" type="Sprite2D" parent="Lobby/Create_character/HBoxContainer/VBoxContainer2/Head_texture"]
 position = Vector2(48, 64)
 scale = Vector2(4, 4)
-texture = ExtResource("8_hcsac")
-hframes = 3
-frame = 2
-region_enabled = true
+texture = ExtResource("10_g2y7a")
+hframes = 8
 region_rect = Rect2(0, 0, 96, 32)
 
 [node name="Face_texture" type="TextureRect" parent="Lobby/Create_character/HBoxContainer/VBoxContainer2"]
@@ -267,9 +265,8 @@ size_flags_vertical = 3
 [node name="face_sprite" type="Sprite2D" parent="Lobby/Create_character/HBoxContainer/VBoxContainer2/Face_texture"]
 position = Vector2(48, 64)
 scale = Vector2(4, 4)
-texture = ExtResource("9_o465i")
-hframes = 3
-region_enabled = true
+texture = ExtResource("11_ncdsq")
+hframes = 11
 region_rect = Rect2(0, 0, 96, 32)
 
 [node name="overview" type="TextureRect" parent="Lobby/Create_character/HBoxContainer/VBoxContainer2"]
@@ -286,18 +283,16 @@ region_rect = Rect2(0, 0, 32, 32)
 [node name="face_overview" type="Sprite2D" parent="Lobby/Create_character/HBoxContainer/VBoxContainer2/overview"]
 position = Vector2(48, 64)
 scale = Vector2(4, 4)
-texture = ExtResource("9_o465i")
-hframes = 3
-region_enabled = true
+texture = ExtResource("11_ncdsq")
+hframes = 11
 region_rect = Rect2(0, 0, 96, 32)
 
 [node name="head_overview" type="Sprite2D" parent="Lobby/Create_character/HBoxContainer/VBoxContainer2/overview"]
 position = Vector2(48, 64)
 scale = Vector2(4, 4)
-texture = ExtResource("8_hcsac")
-hframes = 3
-region_enabled = true
-region_rect = Rect2(0, 0, 96, 32)
+texture = ExtResource("10_g2y7a")
+hframes = 8
+region_rect = Rect2(0, 0, 256, 32)
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="Lobby/Create_character/HBoxContainer"]
 layout_mode = 2
