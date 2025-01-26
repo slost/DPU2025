@@ -14,3 +14,6 @@ func _cosmetic(head :int, face :int ,color :Color) -> void:
 	face_sprite.frame = face
 	head_sprite.frame = head
 	$".".self_modulate = color
+
+func _my_peer_id() -> int:
+	return multiplayer.get_unique_id()
