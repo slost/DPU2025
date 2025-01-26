@@ -7,6 +7,9 @@
 
 [node name="Bullet" type="Node2D"]
 script = ExtResource("1_tnwbw")
+speed = null
+direction = null
+lifetime = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_iy1mc")
@@ -17,5 +20,3 @@ collision_mask = 14
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_y7utv")
-
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

@@ -1,6 +1,5 @@
 extends Node
 
-
 signal client_connected(peer_id :int)
 signal client_disconnected(peer_id :int)
 signal connected_to_server

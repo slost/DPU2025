@@ -11,6 +11,8 @@ extends Node2D
 @export var player_info_text: RichTextLabel
 @export var end_game_node: Control
 @export var player_list_end_game: RichTextLabel
+@onready var hp_soap_text: Label = $CanvasLayer/Control/b_soap/hp_soap_text
+
 
 var start_game: bool
 var end_game: bool
@@ -18,6 +20,7 @@ var players_info: Dictionary
 var slip_point: float = 0.3
 var time_level: int
 var can_input: bool
+var soap_health: int = 100
 
 func _ready() -> void:
 	await get_tree().physics_frame
@@ -56,6 +59,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	time_text.text = str(time_level)
 	_update_own_info()
+	hp_soap_text.text = str(soap_health)
 
 func _on_timer_timeout() -> void:
 	if !multiplayer.is_server(): return
@@ -72,6 +76,17 @@ func _on_timer_timeout() -> void:
 			_sync_player_info.rpc(players_info)
 		time_level = 0
 	_sync_time_level.rpc(time_level)
+	
+# Add this to the existing code
+@rpc("authority", "reliable", "call_local")
+func _update_player_list_score() -> void:
+	player_list_score.text = ""
+	for player_name in players_info.keys():
+		player_list_score.text += "%s : score :%d |Slippery :%.3f\n" % [players_info[player_name]["Name"], players_info[player_name]["Score"], players_info[player_name]["Limit"]]
+
+@rpc("authority", "reliable")
+func _sync_player_info(new_info: Dictionary) -> void:
+	players_info = new_info
 
 @rpc("authority", "reliable", "call_local")
 func _kill_player() -> void:
@@ -157,12 +172,6 @@ func _move_player(player_id: int, direction: String, distanc: int) -> void:
 	else:
 		print("Error: Invalid direction '", direction, "'.")
 
-@rpc("authority", "reliable", "call_local")
-func _update_player_list_score() -> void:
-	player_list_score.text = ""
-	for player_name in players_info.keys():
-		player_list_score.text += "%s : score :%d |Slippery :%.3f\n" % [players_info[player_name]["Name"], players_info[player_name]["Score"], players_info[player_name]["Limit"]]
-
 var is_pause: bool = false
 
 #Input
@@ -207,20 +216,31 @@ func _spawn_bullet(peer_id: int, direction: String) -> void:
 		var bullet = bullet_scene.instantiate()
 		bullet.direction = _get_shoot_direction(direction)
 		bullet.position = player_node.position
+		bullet.shooter_id = peer_id  # Pass the shooter's ID to the bullet
 		get_parent().add_child(bullet)
+
+var last_direction: Vector2 = Vector2.RIGHT  # Default direction
 
 func _get_shoot_direction(direction: String) -> Vector2:
 	match direction:
 		"left":
-			return Vector2.LEFT
+			last_direction = Vector2.LEFT
+			return last_direction
 		"right":
-			return Vector2.RIGHT
+			last_direction = Vector2.RIGHT
+			return last_direction
 		"up":
-			return Vector2.UP
+			last_direction = Vector2.UP
+			return last_direction
 		"down":
-			return Vector2.DOWN
+			last_direction = Vector2.DOWN
+			return last_direction
+		"stop":
+			# Return the last direction when the player is stopped
+			return last_direction
 		_:
-			return Vector2.RIGHT  # Default direction
+			# Default to the last direction if the direction is invalid
+			return last_direction
 
 func _update_own_info() -> void:
 	player_info_text.text = ""
@@ -289,10 +309,6 @@ func _clean_node(peer_id) -> void:
 
 
 #Sync ////////////////////////////////////////////
-#sync player info
-@rpc("authority", "reliable")
-func _sync_player_info(new_info :Dictionary) -> void:
-	players_info = new_info
 
 #sync_tiem_level
 @rpc("authority", "reliable")
@@ -308,6 +324,10 @@ func _sync_can_input(can :bool) -> void:
 @rpc("authority", "reliable")
 func _sync_end_game(new_end_game :bool) -> void:
 	end_game = new_end_game
+
+@rpc("authority", "reliable")
+func _sync_soap_hp(new_health:int ) -> void:
+	soap_health = new_health
 
 
 func _on_b_soap_pressed() -> void:
@@ -339,3 +359,18 @@ func _on_limit_slppery_timeout() -> void:
 			players_info[player_id]["Limit"] == 0.0
 		_sync_player_info.rpc(players_info)
 	_update_player_list_score.rpc()
+
+func _on_area_2d_area_entered(area: Area2D) -> void:
+	_on_b_soap_pressed()
+	if multiplayer.is_server():
+		soap_health -= 1
+		_sync_soap_hp.rpc(soap_health)
+	else: 
+		request_soap_health_change.rpc_id(1)
+	print(soap_health, "SOS")
+	
+@rpc("any_peer", "reliable")
+func request_soap_health_change() -> void:
+	if !multiplayer.is_server(): return
+	soap_health -= 1
+	_sync_soap_hp.rpc(soap_health)

@@ -56,6 +56,7 @@ enabled=PackedStringArray("res://addons/fmod/plugin.cfg")
 
 players="players_only"
 items=""
+b_soap_group=""
 
 [input]
 

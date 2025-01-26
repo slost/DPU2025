@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://bm8l2e131vk1r"]
+[gd_scene load_steps=24 format=3 uid="uid://bm8l2e131vk1r"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_rwqlk"]
 [ext_resource type="PackedScene" uid="uid://srrvpjo26pdu" path="res://test_scene_script/test_player.tscn" id="2_ehx6p"]
@@ -10,8 +10,6 @@
 [ext_resource type="Texture2D" uid="uid://ckfjrl4qmr0k2" path="res://assets/sprites/body-clean.png" id="6_x0rc4"]
 [ext_resource type="Texture2D" uid="uid://bip163op5ohde" path="res://assets/sprites/ui/arrow_chose.png" id="8_n554a"]
 [ext_resource type="Texture2D" uid="uid://cwmfst0lcsanq" path="res://assets/sprites/ui/soap.png" id="11_dmg6j"]
-[ext_resource type="Script" path="res://scenes/b_soap.gd" id="11_q68r6"]
-[ext_resource type="Script" path="res://scenes/area_2d.gd" id="11_vpjfh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oswpm"]
 atlas = ExtResource("3_ljges")
@@ -118,12 +116,6 @@ font_color = Color(0, 1, 1, 1)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oivbk"]
 size = Vector2(24.6245, 13.5707)
 
-[sub_resource type="LabelSettings" id="LabelSettings_8qmqn"]
-font_size = 8
-font_color = Color(0.333333, 0.733333, 0.529412, 1)
-outline_size = 2
-outline_color = Color(0, 0.654902, 1, 0.984314)
-
 [node name="Game" type="Node2D" node_paths=PackedStringArray("anim_game_original", "time_text", "player_container", "_time", "player_list_score", "player_info_text", "end_game_node", "player_list_end_game")]
 script = ExtResource("1_rwqlk")
 speed_multiplier = 2.0
@@ -213,7 +205,7 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -456.0
+offset_left = -328.0
 offset_top = 32.0
 offset_right = -31.9999
 offset_bottom = 544.0
@@ -228,28 +220,17 @@ offset_right = 448.0
 offset_bottom = 272.0
 scale = Vector2(7, 7)
 texture_normal = ExtResource("11_dmg6j")
-script = ExtResource("11_q68r6")
 
 [node name="Area2D" type="Area2D" parent="CanvasLayer/Control/b_soap"]
 position = Vector2(0, 1.14286)
 collision_layer = 8
 collision_mask = 22
-script = ExtResource("11_vpjfh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasLayer/Control/b_soap/Area2D"]
 position = Vector2(16, 14.8571)
 rotation = 2.40855
+scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_oivbk")
-
-[node name="hp_soap_text" type="Label" parent="CanvasLayer/Control/b_soap"]
-layout_mode = 0
-offset_left = 6.85714
-offset_top = 17.1429
-offset_right = 20.8571
-offset_bottom = 29.1429
-rotation = -0.767945
-text = "100"
-label_settings = SubResource("LabelSettings_8qmqn")
 
 [node name="player_panel_profile" type="Panel" parent="CanvasLayer/Control"]
 layout_mode = 2
@@ -307,5 +288,4 @@ wait_time = 0.1
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="pressed" from="CanvasLayer/Control/b_soap" to="." method="_on_b_soap_pressed"]
-[connection signal="area_entered" from="CanvasLayer/Control/b_soap/Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="timeout" from="Limit_slppery" to="." method="_on_limit_slppery_timeout"]
