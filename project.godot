@@ -51,6 +51,7 @@ enabled=PackedStringArray("res://addons/fmod/plugin.cfg")
 [global_group]
 
 players="players_only"
+items=""
 
 [input]
 

@@ -130,7 +130,6 @@ offset_bottom = 800.0
 color = Color(0, 0, 0, 0.329412)
 
 [node name="Players_container" type="Node2D" parent="."]
-visible = false
 
 [node name="Map" type="TileMapLayer" parent="."]
 unique_name_in_owner = true

@@ -142,21 +142,11 @@ func _move_player(player_id: int, direction: String, distanc: int) -> void:
 		var player_node = player_container.get_node_or_null(str(player_id))
 		if player_node:
 			player_node.position += direction_all[direction]
-			_checking_hitting()
+
 		else:
 			print("Error: Player with ID ", player_id, " not found.")
 	else:
 		print("Error: Invalid direction '", direction, "'.")
-
-func _checking_hitting() -> void:
-	if !multiplayer.is_server(): return
-	var hitting :Array
-	var same_pos :Array
-	for player_id :int in players_info.keys():
-		if players_info[player_id]["Hitting"] != false:
-			hitting.append(player_id)
-	print("Hitting :", hitting)
-			
 
 
 #Animation direction
