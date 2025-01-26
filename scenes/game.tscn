@@ -1,9 +1,10 @@
-[gd_scene load_steps=22 format=3 uid="uid://bm8l2e131vk1r"]
+[gd_scene load_steps=24 format=3 uid="uid://bm8l2e131vk1r"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_rwqlk"]
 [ext_resource type="PackedScene" uid="uid://srrvpjo26pdu" path="res://test_scene_script/test_player.tscn" id="2_ehx6p"]
 [ext_resource type="PackedScene" uid="uid://dh2046og5eqqw" path="res://scenes/world.tscn" id="3_h6jor"]
 [ext_resource type="Texture2D" uid="uid://cyfw15i5k6jol" path="res://assets/sprites/ui/arrow_chose-export.png" id="3_ljges"]
+[ext_resource type="PackedScene" uid="uid://drnbxs8agu3co" path="res://scenes/bullet.tscn" id="3_nbtfw"]
 [ext_resource type="Texture2D" uid="uid://bqbl6ow8bq3w8" path="res://assets/sprites/ui/pause.png" id="5_j7r4b"]
 [ext_resource type="Texture2D" uid="uid://cujd8fauuv55i" path="res://assets/sprites/snake-head.png" id="5_ul6ux"]
 [ext_resource type="Texture2D" uid="uid://ckfjrl4qmr0k2" path="res://assets/sprites/body-clean.png" id="6_x0rc4"]
@@ -112,10 +113,14 @@ animations = [{
 font_size = 30
 font_color = Color(0, 1, 1, 1)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oivbk"]
+size = Vector2(24.6245, 13.5707)
+
 [node name="Game" type="Node2D" node_paths=PackedStringArray("anim_game_original", "time_text", "player_container", "_time", "player_list_score", "player_info_text", "end_game_node", "player_list_end_game")]
 script = ExtResource("1_rwqlk")
 speed_multiplier = 2.0
 player_instance = ExtResource("2_ehx6p")
+bullet_scene = ExtResource("3_nbtfw")
 anim_game_original = NodePath("Duplicate_items/anim_game")
 time_text = NodePath("CanvasLayer/Control/Time_text")
 player_container = NodePath("Players_container")
@@ -215,6 +220,17 @@ offset_right = 448.0
 offset_bottom = 272.0
 scale = Vector2(7, 7)
 texture_normal = ExtResource("11_dmg6j")
+
+[node name="Area2D" type="Area2D" parent="CanvasLayer/Control/b_soap"]
+position = Vector2(0, 1.14286)
+collision_layer = 8
+collision_mask = 22
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasLayer/Control/b_soap/Area2D"]
+position = Vector2(16, 14.8571)
+rotation = 2.40855
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_oivbk")
 
 [node name="player_panel_profile" type="Panel" parent="CanvasLayer/Control"]
 layout_mode = 2
