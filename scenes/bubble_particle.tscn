@@ -1,0 +1,54 @@
+[gd_scene load_steps=6 format=3 uid="uid://qaq7tbngmwaj"]
+
+[ext_resource type="Texture2D" uid="uid://bkicu8yl3rg5o" path="res://fmod/DPU2025/Assets/Character/bubble_explode-Sheet.png" id="1_gh5a3"]
+[ext_resource type="Script" path="res://scripts/bubble_particle.gd" id="2_m36lh"]
+
+[sub_resource type="Animation" id="Animation_xa1fr"]
+resource_name = "animation"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.133333, 0.5, 1, 1.5, 2, 2.5, 3, 3.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+
+[sub_resource type="Animation" id="Animation_hrpld"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_weoa1"]
+_data = {
+"RESET": SubResource("Animation_hrpld"),
+"animation": SubResource("Animation_xa1fr")
+}
+
+[node name="BubbleParticle" type="Sprite2D"]
+position = Vector2(96, 83)
+scale = Vector2(5, 5)
+texture = ExtResource("1_gh5a3")
+hframes = 8
+script = ExtResource("2_m36lh")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_weoa1")
+}
+speed_scale = 4.0

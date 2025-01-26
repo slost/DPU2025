@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bdda0jdasrwk4"]
+
+[node name="MusicPlayer" type="Node"]
+
+[node name="BGM" type="AudioStreamPlayer2D" parent="."]
+autoplay = true
+
+[node name="Click" type="AudioStreamPlayer2D" parent="."]
