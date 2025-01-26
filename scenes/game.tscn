@@ -119,10 +119,10 @@ font_color = Color(0, 1, 1, 1)
 size = Vector2(24.6245, 13.5707)
 
 [sub_resource type="LabelSettings" id="LabelSettings_8qmqn"]
-font_size = 8
-font_color = Color(0.333333, 0.733333, 0.529412, 1)
+font_size = 22
+font_color = Color(0.333333, 0.733333, 0.529412, 0.360784)
 outline_size = 2
-outline_color = Color(0, 0.654902, 1, 0.984314)
+outline_color = Color(0, 0.654902, 1, 0.184314)
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("anim_game_original", "time_text", "player_container", "_time", "player_list_score", "player_info_text", "end_game_node", "player_list_end_game")]
 script = ExtResource("1_rwqlk")
@@ -227,6 +227,7 @@ offset_top = 240.0
 offset_right = 448.0
 offset_bottom = 272.0
 scale = Vector2(7, 7)
+disabled = true
 texture_normal = ExtResource("11_dmg6j")
 script = ExtResource("11_q68r6")
 
@@ -243,10 +244,10 @@ shape = SubResource("RectangleShape2D_oivbk")
 
 [node name="hp_soap_text" type="Label" parent="CanvasLayer/Control/b_soap"]
 layout_mode = 0
-offset_left = 6.85714
-offset_top = 17.1429
-offset_right = 20.8571
-offset_bottom = 29.1429
+offset_left = -21.7143
+offset_top = 4.57143
+offset_right = 16.2857
+offset_bottom = 35.5714
 rotation = -0.767945
 text = "100"
 label_settings = SubResource("LabelSettings_8qmqn")

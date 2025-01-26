@@ -60,6 +60,14 @@ func _physics_process(delta: float) -> void:
 	time_text.text = str(time_level)
 	_update_own_info()
 	hp_soap_text.text = str(soap_health)
+	if multiplayer.is_server():check_soap_health.rpc()
+
+@rpc("authority","reliable","call_local")
+func check_soap_health() -> void:
+	if soap_health <= 0:
+		end_game = true
+		_sync_end_game.rpc(end_game)
+		_end_game.rpc()
 
 func _on_timer_timeout() -> void:
 	if !multiplayer.is_server(): return
@@ -117,6 +125,7 @@ func _end_game() -> void:
 				max_score = players_info[player_id]["Score"]
 				winner = players_info[player_id]["Name"]
 		player_list_end_game.text = "WINNER IS %s!! SCORE :%d" % [winner, max_score]
+		
 func _on_player_input_left(peer_id: int, direction: String) -> void:
 	_player_movement(peer_id, direction)
 	_update_player_list_score.rpc()
@@ -374,3 +383,4 @@ func request_soap_health_change() -> void:
 	if !multiplayer.is_server(): return
 	soap_health -= 1
 	_sync_soap_hp.rpc(soap_health)
+	
