@@ -1,6 +1,5 @@
 extends Node
 
-
 signal client_connected(peer_id :int)
 signal client_disconnected(peer_id :int)
 signal connected_to_server
@@ -35,7 +34,7 @@ func _create_server() -> Error:
 		"Name" : "Host", 
 		"Head" : 0, 
 		"Face" : 0, 
-		"Color" : Color(0, 0, 0), 
+		"Color" : Color(1, 1, 1), 
 		"Ready" : true, 
 	}
 	print("HOST!!")
@@ -45,7 +44,7 @@ func _create_server() -> Error:
 func _create_client(address :String = "") -> void:
 	var peer :ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 	if address.is_empty():
-		address = Defult_server_ip
+		address = "localhost"
 	peer.create_client(address, PORT)
 	multiplayer.multiplayer_peer = peer
 	
@@ -59,7 +58,7 @@ func _client_connected(peer_id :int)  -> void:
 		"Name" : str(peer_id), 
 		"Head" : 0, 
 		"Face" : 0, 
-		"Color" : Color(0, 0, 0), 
+		"Color" : Color(1, 1, 1), 
 		"Ready" : false, 
 	}
 	

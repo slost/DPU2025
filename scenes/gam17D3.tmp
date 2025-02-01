@@ -1,0 +1,291 @@
+[gd_scene load_steps=24 format=3 uid="uid://bm8l2e131vk1r"]
+
+[ext_resource type="Script" path="res://scenes/game.gd" id="1_rwqlk"]
+[ext_resource type="PackedScene" uid="uid://srrvpjo26pdu" path="res://test_scene_script/test_player.tscn" id="2_ehx6p"]
+[ext_resource type="PackedScene" uid="uid://dh2046og5eqqw" path="res://scenes/world.tscn" id="3_h6jor"]
+[ext_resource type="Texture2D" uid="uid://cyfw15i5k6jol" path="res://assets/sprites/ui/arrow_chose-export.png" id="3_ljges"]
+[ext_resource type="PackedScene" uid="uid://drnbxs8agu3co" path="res://scenes/bullet.tscn" id="3_nbtfw"]
+[ext_resource type="Texture2D" uid="uid://bqbl6ow8bq3w8" path="res://assets/sprites/ui/pause.png" id="5_j7r4b"]
+[ext_resource type="Texture2D" uid="uid://cujd8fauuv55i" path="res://assets/sprites/snake-head.png" id="5_ul6ux"]
+[ext_resource type="Texture2D" uid="uid://ckfjrl4qmr0k2" path="res://assets/sprites/body-clean.png" id="6_x0rc4"]
+[ext_resource type="Texture2D" uid="uid://bip163op5ohde" path="res://assets/sprites/ui/arrow_chose.png" id="8_n554a"]
+[ext_resource type="Texture2D" uid="uid://cwmfst0lcsanq" path="res://assets/sprites/ui/soap.png" id="11_dmg6j"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oswpm"]
+atlas = ExtResource("3_ljges")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7vycs"]
+atlas = ExtResource("3_ljges")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5vy8x"]
+atlas = ExtResource("3_ljges")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jl5ub"]
+atlas = ExtResource("3_ljges")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h7swh"]
+atlas = ExtResource("8_n554a")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q8b3e"]
+atlas = ExtResource("8_n554a")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lybn6"]
+atlas = ExtResource("5_j7r4b")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_41unn"]
+atlas = ExtResource("5_j7r4b")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0vmbo"]
+atlas = ExtResource("3_ljges")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6upwm"]
+atlas = ExtResource("3_ljges")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_re5d1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oswpm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7vycs")
+}],
+"loop": true,
+"name": &"down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5vy8x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jl5ub")
+}],
+"loop": true,
+"name": &"left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h7swh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q8b3e")
+}],
+"loop": true,
+"name": &"right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lybn6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_41unn")
+}],
+"loop": true,
+"name": &"stop",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0vmbo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6upwm")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}]
+
+[sub_resource type="LabelSettings" id="LabelSettings_jkbgi"]
+font_size = 30
+font_color = Color(0, 1, 1, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oivbk"]
+size = Vector2(24.6245, 13.5707)
+
+[node name="Game" type="Node2D" node_paths=PackedStringArray("anim_game_original", "time_text", "player_container", "_time", "player_list_score", "player_info_text", "end_game_node", "player_list_end_game")]
+script = ExtResource("1_rwqlk")
+speed_multiplier = 2.0
+player_instance = ExtResource("2_ehx6p")
+bullet_scene = ExtResource("3_nbtfw")
+anim_game_original = NodePath("Duplicate_items/anim_game")
+time_text = NodePath("CanvasLayer/Control/Time_text")
+player_container = NodePath("Players_container")
+_time = NodePath("Timer")
+player_list_score = NodePath("CanvasLayer/Control/player_list")
+player_info_text = NodePath("CanvasLayer/Control/player_info/player_info_text")
+end_game_node = NodePath("CanvasLayer/End_game")
+player_list_end_game = NodePath("CanvasLayer/End_game/player_list_end_game")
+
+[node name="World" parent="." instance=ExtResource("3_h6jor")]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+z_index = -1
+offset_right = 1315.0
+offset_bottom = 800.0
+color = Color(0, 0, 0, 0.329412)
+
+[node name="Head" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+visible = false
+position = Vector2(64, 64)
+texture = ExtResource("5_ul6ux")
+
+[node name="Body" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+visible = false
+position = Vector2(64, 192)
+texture = ExtResource("6_x0rc4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+
+[node name="Timer" type="Timer" parent="."]
+process_callback = 0
+
+[node name="Players_container" type="Node2D" parent="."]
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(640, 240)
+
+[node name="Duplicate_items" type="Node2D" parent="."]
+visible = false
+
+[node name="anim_game" type="AnimatedSprite2D" parent="Duplicate_items" groups=["players"]]
+visible = false
+scale = Vector2(0.3, 0.3)
+sprite_frames = SubResource("SpriteFrames_re5d1")
+animation = &"stop"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchor_right = 1.007
+anchor_bottom = 0.099
+offset_right = -0.0640869
+offset_bottom = -0.152008
+
+[node name="Time_text" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "000"
+label_settings = SubResource("LabelSettings_jkbgi")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="player_list" type="RichTextLabel" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -328.0
+offset_top = 32.0
+offset_right = -31.9999
+offset_bottom = 544.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="b_soap" type="TextureButton" parent="CanvasLayer/Control" groups=["b_soap_group"]]
+layout_mode = 0
+offset_left = 416.0
+offset_top = 240.0
+offset_right = 448.0
+offset_bottom = 272.0
+scale = Vector2(7, 7)
+texture_normal = ExtResource("11_dmg6j")
+
+[node name="Area2D" type="Area2D" parent="CanvasLayer/Control/b_soap"]
+position = Vector2(0, 1.14286)
+collision_layer = 8
+collision_mask = 22
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasLayer/Control/b_soap/Area2D"]
+position = Vector2(16, 14.8571)
+rotation = 2.40855
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_oivbk")
+
+[node name="player_panel_profile" type="Panel" parent="CanvasLayer/Control"]
+layout_mode = 2
+offset_top = 512.0
+offset_right = 1152.0
+offset_bottom = 648.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="player_info" type="HBoxContainer" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_top = 512.0
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="player_info_text" type="RichTextLabel" parent="CanvasLayer/Control/player_info"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="bubles" type="Node2D" parent="CanvasLayer"]
+
+[node name="End_game" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="CanvasLayer/End_game"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="player_list_end_game" type="RichTextLabel" parent="CanvasLayer/End_game"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = -260.0
+offset_right = 192.0
+offset_bottom = 260.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Limit_slppery" type="Timer" parent="."]
+wait_time = 0.1
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="pressed" from="CanvasLayer/Control/b_soap" to="." method="_on_b_soap_pressed"]
+[connection signal="timeout" from="Limit_slppery" to="." method="_on_limit_slppery_timeout"]

@@ -1,17 +1,26 @@
 extends Sprite2D
 
+@export var face_sprite: Sprite2D
+@export var head_sprite: Sprite2D
+@export var area_player: Area2D
+@export var bullet_scene: PackedScene  # Export the Bullet scene here
 
-func _enter_tree() -> void:
-	set_multiplayer_authority(str(name).to_int())
+var shoot_direction: Vector2 = Vector2.RIGHT
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
 
+func _cosmetic(head: int, face: int, color: Color) -> void:
+	face_sprite.frame = face
+	head_sprite.frame = head
+	$".".self_modulate = color
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	if is_multiplayer_authority():
-		#position += Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down") * 5
-		pass
-	
+func _my_peer_id() -> int:
+	return multiplayer.get_unique_id()
+
+func shoot() -> void:
+	if bullet_scene:
+		var bullet = bullet_scene.instantiate()
+		bullet.direction = shoot_direction
+		bullet.position = position  # Spawn bullet at player's position
+		get_parent().add_child(bullet)  # Add bullet to the game world

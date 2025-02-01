@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://cmv2x20pxpgsw"]
+
+[ext_resource type="Texture2D" uid="uid://cwmfst0lcsanq" path="res://assets/sprites/ui/soap.png" id="1_413gm"]
+[ext_resource type="Script" path="res://scripts/soap.gd" id="1_i6c7r"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_y04tl"]
+radius = 13.35
+
+[node name="soap" type="Area2D" groups=["items"]]
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("1_i6c7r")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_413gm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_y04tl")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

@@ -9,15 +9,15 @@ var tile_size: int = 128
 
 
 var enitities_atlas = {
-    "Head" : Vector2i(2, 0),
-    "Body" : Vector2i(3, 0),
+	"Head" : Vector2i(2, 0),
+	"Body" : Vector2i(3, 0),
 }
 
 enum ZLevel {
-    Background,
-    Entities,
+	Background,
+	Entities,
 }
 
 enum Position {
-    Middle,
+	Middle,
 }

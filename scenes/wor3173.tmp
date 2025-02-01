@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://dh2046og5eqqw"]
+
+[ext_resource type="Script" path="res://scripts/world.gd" id="1_dkrd4"]
+[ext_resource type="TileSet" uid="uid://c0pp64e02whqb" path="res://assets/sprites/tileset.tres" id="2_rf75a"]
+[ext_resource type="Script" path="res://scenes/map.gd" id="3_fabbe"]
+[ext_resource type="Texture2D" uid="uid://mb8a1da6a3dh" path="res://assets/sprites/tileset.png" id="4_no100"]
+
+[node name="World" type="Node2D" node_paths=PackedStringArray("tile_map")]
+script = ExtResource("1_dkrd4")
+tile_map = NodePath("Map")
+
+[node name="Map" type="TileMapLayer" parent="."]
+unique_name_in_owner = true
+modulate = Color(0.36, 0.36, 0.36, 1)
+tile_set = ExtResource("2_rf75a")
+script = ExtResource("3_fabbe")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 6.0
+autostart = true
+
+[node name="Dummy" type="Sprite2D" parent="."]
+texture = ExtResource("4_no100")
+hframes = 5
+vframes = 5
+frame = 5
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

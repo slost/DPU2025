@@ -20,6 +20,13 @@ extends Control
 @export var players_list :RichTextLabel
 @export var b_play :Button
 @export var b_ready :Button
+@export var head_sprite :Sprite2D
+@export var face_sprite :Sprite2D
+@export var base_overview :Sprite2D
+@export var face_overview :Sprite2D
+@export var head_overview :Sprite2D
+@export var color_picker : ColorPicker
+
 
 func _ready() -> void:
 	#Title
@@ -33,6 +40,7 @@ func _ready() -> void:
 	NetworkManager.connected_to_server.connect(_connected_to_server)
 	NetworkManager.connected_to_server_failed.connect(_connected_to_server_failed)
 	NetworkManager.server_disconnected.connect(_server_disconnected)
+	
 
 
 #//////////////////////////
@@ -80,7 +88,7 @@ func _on_play_pressed() -> void:
 func _input(event: InputEvent) -> void:
 	if multiplayer.multiplayer_peer == null: return
 	if multiplayer.is_server():
-		if event.is_action_pressed("ui_accept"):
+		if event.is_action_pressed("ui_cancel"):
 			print(NetworkManager.players)
 	else:
 		if event.is_action_pressed("ui_down"):
@@ -148,6 +156,8 @@ func _on_host_pressed() -> void:
 	_show_player_list.rpc()
 	b_play.visible = true
 	b_ready.visible = false
+	#set_frame
+	
 
 
 func _on_join_pressed() -> void:
@@ -221,3 +231,73 @@ func _request_client_ready() -> void:
 	NetworkManager.players[sender_id]["Ready"] = !NetworkManager.players[sender_id]["Ready"]
 	NetworkManager._sync_player_info.rpc(NetworkManager.players)
 	_show_player_list.rpc()
+
+
+#Character
+func _change_chracter(peer_id :int, part :String, frame :int) -> void:
+	if multiplayer.is_server():
+		NetworkManager.players[peer_id][part] = frame
+		NetworkManager._sync_player_info.rpc(NetworkManager.players)
+
+	else:
+		_request_change_character.rpc_id(1, peer_id , part, frame)
+
+@rpc("any_peer", "reliable")
+func _request_change_character(peer_id :int, part :String, frame :int) -> void:
+	if !multiplayer.is_server(): return
+	NetworkManager.players[peer_id][part] = frame
+	NetworkManager._sync_player_info.rpc(NetworkManager.players)
+
+
+#///////////////////////////////////////
+#Button change character frame
+func _on_b_left_head_pressed() -> void:
+	if head_sprite.frame == 0 :
+		head_sprite.frame = 7 
+	else:
+		head_sprite.frame -= 1 
+	head_overview.frame = head_sprite.frame
+	_change_chracter(multiplayer.get_unique_id(), "Head", head_sprite.frame)
+
+func _on_b_left_face_pressed() -> void:
+	if face_sprite.frame == 0 :
+		face_sprite.frame = 10
+	else:
+		face_sprite.frame -= 1 
+	face_overview.frame = face_sprite.frame
+	_change_chracter(multiplayer.get_unique_id(), "Face", face_sprite.frame)
+
+func _on_b_right_head_pressed() -> void:
+	if head_sprite.frame == 7 :
+		head_sprite.frame = 0 
+	else:
+		head_sprite.frame += 1 
+	head_overview.frame = head_sprite.frame
+	_change_chracter(multiplayer.get_unique_id(), "Head", head_sprite.frame)
+
+func _on_b_right_face_pressed() -> void:
+	if face_sprite.frame == 10 :
+		face_sprite.frame = 0
+	else:
+		face_sprite.frame += 1 
+	face_overview.frame = face_sprite.frame
+	_change_chracter(multiplayer.get_unique_id(), "Face", face_sprite.frame)
+
+
+func _on_color_picker_color_changed(color: Color) -> void:
+	$Lobby/Create_character/HBoxContainer/VBoxContainer2/overview/base_overview.modulate = color
+	_change_color_modulate(multiplayer.get_unique_id(), color)
+
+#Change color
+func _change_color_modulate(peer_id :int, color :Color) -> void:
+	if multiplayer.is_server():
+		NetworkManager.players[peer_id]["Color"] = color
+		NetworkManager._sync_player_info.rpc(NetworkManager.players)
+	else:
+		_request_change_color_modulate.rpc_id(1, peer_id, color)
+
+@rpc("any_peer", "reliable")
+func _request_change_color_modulate(peer_id :int, color :Color) -> void:
+	if !multiplayer.is_server(): return
+	NetworkManager.players[peer_id]["Color"] = color
+	NetworkManager._sync_player_info.rpc(NetworkManager.players)
